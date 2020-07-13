@@ -1,0 +1,102 @@
+#include <iostream>
+#include <string>
+
+// Возведения целого числа в степень с целым положительным показателем
+int pow_(int num, int exp)
+{
+    // Если показатель степени является нулем
+    if (exp == 0) {
+        // Любое число в нулевой степени является единицей
+        return 1;
+    }
+    // Если показатель степени положителен
+    if (exp > 0) {
+        int result = 1;
+        // Умножаем число само на себя exp раз
+        for (int i = 0; i < exp; ++i) {
+            result *= num;
+        }
+        // Возвращаем результат
+        return result;
+    }
+    // Нам не нужно считать отрицательные степени
+    return -1;
+}
+
+// Преобразование шестнадцатеричного символа в десятичное число
+unsigned int char2int_(char chr)
+{
+    if (chr >= '0' && chr <= '9')
+        return chr - '0';
+    else if (chr >= 'A' && chr <= 'F')
+        return chr - 'A' + 10;
+    else if (chr >= 'a' && chr <= 'f')
+        return chr - 'a' + 10; 
+    return -1;
+}
+
+// Приведение строкового значения шестнадцатеричного
+// числа к десятичному виду
+int hex2dec_(const char *hex, int size)
+{
+    // Изначальное десятичное значение
+    int dec = 0;
+    // Непосредственно преобразование шестнадцатеричного числа
+    // в десятичное. Пруфлинк: http://vestikinc.narod.ru/AB/hex_dec_tr.htm
+    for (int j = 0, i = size - 1; j < size; ++j, --i) {
+        dec += char2int_(hex[j]) * pow_(16, i);
+    }
+    // Возвращаем десятичное число
+    return dec;
+}
+
+// Проверка строки на соответствию формата десятичного числа
+int is_valid_hex(const char *hex, unsigned int size)
+{
+    for (int i = 0; i < size; ++i)
+        if (!((hex[i] >= '0' && hex[i] <= '9')
+               || (hex[i] >= 'a' && hex[i] <= 'z')
+               || (hex[i] >= 'A' && hex[i] <= 'z'))
+                )
+            return 0;
+    return 1;
+}
+
+int main(int argc, char *argv[])
+{
+    // Шестнадцатеричное число в виде строки
+    std::string hex;
+
+    if (argc == 2) {
+        // Программу можно запускать через аргументы командной строки
+        // Пруфлинк: http://code-live.ru/post/cpp-command-line-arguments/
+        hex = argv[1];
+    } else {
+        // Если нужные аргументы не были переданы,
+        // забираем число из stdin.
+        std::cin >> hex;
+    }
+
+    // Проверяем число на соответствие шестнадцатеричному формату
+    if (!is_valid_hex(hex.c_str(), hex.length())) {
+        std::cerr << argv[0] << ": hex number is not valid: " << hex << std::endl;
+        return 1;
+    }
+
+    // Вызываем функцию преобразования hex2dec.
+    // Передаем ей строку типа const char*, а также длину данной строки
+
+    // Дело в том, что sizeof(char) в разных системах и компиляторах
+    // может отличаться от единицы. Метод std::string::length() корректно
+    // считает длину строки.
+
+    // Проверить корректность вычислений можно на http://numsys.ru/
+    int dec = hex2dec_(hex.c_str(), hex.length());
+
+    // Выводим результат в stdout
+    std::cout << dec << std::endl;
+
+    // Говорим системе об успешном завершении процесса.
+    // Код успешного завершения всегда нуль
+    return 0;
+}

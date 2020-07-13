@@ -1,0 +1,128 @@
+#include <iostream>
+#include <Windows.h>
+#include <string>
+using namespace std;
+
+class your_firm {
+protected:
+	double time;
+	double cost;
+	string city;
+public:
+	virtual void put() = 0;
+	virtual void gp() = 0;
+
+	void set()
+	{
+		cout << "Введите город назначения: ";
+		cin >> city;
+		cout << "Введите время в часах: ";
+		cin >> time;
+		cout << "Введите стоимость часа: ";
+		cin >> cost;
+	}
+	void show()
+	{
+		cout << "город: " << city << endl;
+	}
+
+	void get() {
+		show();
+		cout << "Стоимость: " << cost * time << endl << endl;
+	}
+};
+
+class car : public your_firm {
+private:
+	int serial_car;
+public:
+
+	void put() {
+		serial_car = rand() % 100;
+		your_firm::set();
+	}
+	void gp() {
+		cout << "Автомобиль, серийный номер автомобиля: " << serial_car << endl;
+		your_firm::get();
+	}
+};
+
+class air : public your_firm {
+private:
+	int serial_train;
+public:
+
+	void put() {
+		serial_train = rand() % 100;
+		your_firm::set();
+	}
+	void  gp() {
+		cout << "Бортовой номер самолета: " << serial_train << endl;
+		your_firm::get();
+	}
+};
+
+class train : public your_firm {
+private:
+	int serial_air;
+public:
+
+	void put() {
+		serial_air = rand() % 100;
+		your_firm::set();
+	}
+	void  gp() {
+		cout << "номер поезда: " << serial_air << endl;
+		your_firm::get();
+	}
+};
+
+
+int main() {
+	setlocale(LC_ALL, "");
+	your_firm *filials[3];
+
+	for (int i = 0; i < 3; i++)
+	{
+		cout << "Выберите транспорт 1 - авто, 2 - самолет, 3 - поезд: ";
+		short ch;
+		cin >> ch;
+		switch (ch)
+		{
+		case 1:
+		{
+			filials[i] = new car;
+			filials[i]->put();
+			break;
+		}
+		case 2:
+		{
+			filials[i] = new air;
+			filials[i]->put();
+			break;
+		}
+		case 3:
+		{
+			filials[i] = new train;
+			filials[i]->put();
+			break;
+		}
+		}
+		
+
+	}
+
+	system("cls");
+
+	for (int i(0); i != 3; i++) {
+		filials[i]->gp();
+		cout << endl;
+	}
+
+	for (int i(0); i != 3; i++) {
+		delete filials[i];
+	}
+
+	system("pause");
+	return 0;
+}

@@ -1,0 +1,59 @@
+{\rtf1\ansi\ansicpg1251\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 #include "stdafx.h"\
+#include <cmath>\
+#include "iostream"\
+\
+using namespace std;\
+\
+int main()\
+\{\
+	setlocale(LC_ALL, "");\
+	const int n = 7;\
+	const int N = -6;\
+	double a = 2.5;\
+	double b = 3;\
+	double c = 0.2;\
+	double min = 100;\
+	double min1 = 100;\
+	int x[n] ;\
+	double f[n];\
+	double y[n];\
+\
+	for (int i = 0; i < n; i++)\
+		x[i] = i;\
+	for (int i = 0; i < n; i++)\
+		\{\
+			if ((sin(a*x[i])*cos(b*x[i]) + c) >= 0) \
+			\{\
+				f[i] = sin(a*x[i])*cos(b*x[i]) + c;\
+				cout << "\uc0\u1050 \u1086 \u1088 \u1077 \u1085 \u1100  = " << f[i] << endl;	\
+			\}\
+			y[i] = -3 * sin(2.5*x[i])*sin(3 * x[i]) + 2.5*cos(2.5*x[i])*cos(3 * x[i]);\
+			if (y[i] < min)\
+				min = y[i];\
+		\}\
+\
+\
+	for (int i = -1; i > N; i--)\
+		x[i] = i;\
+	for (int i = -1; i > N; i--)\
+	\{\
+		if ((sin(a*x[i])*cos(b*x[i]) + c) >= 0)\
+		\{\
+			f[i] = sin(a*x[i])*cos(b*x[i]) + c;\
+			cout << "\uc0\u1050 \u1086 \u1088 \u1077 \u1085 \u1100  = " << f[i] << endl;\
+		\}\
+		y[i] = -3 * sin(2.5*x[i])*sin(3 * x[i]) + 2.5*cos(2.5*x[i])*cos(3 * x[i]);\
+		if (y[i] < min1)\
+			min1 = y[i];\
+	\}\
+	if (min > min1) cout << "\uc0\u1055 \u1088 \u1086 \u1080 \u1079 \u1074 \u1086 \u1076 \u1085 \u1072 \u1103  \u1092 \u1091 \u1085 \u1082 \u1094 \u1080 \u1080  \u1080 \u1084 \u1077 \u1077 \u1090  \u1084 \u1080 \u1085 \u1080 \u1084 \u1072 \u1083 \u1100 \u1085 \u1086 \u1077  \u1079 \u1085 \u1072 \u1095 \u1077 \u1085 \u1080 \u1077  " << min1 << endl;\
+	else cout << "\uc0\u1055 \u1088 \u1086 \u1080 \u1079 \u1074 \u1086 \u1076 \u1085 \u1072 \u1103  \u1092 \u1091 \u1085 \u1082 \u1094 \u1080 \u1080  \u1080 \u1084 \u1077 \u1077 \u1090  \u1084 \u1080 \u1085 \u1080 \u1084 \u1072 \u1083 \u1100 \u1085 \u1086 \u1077  \u1079 \u1085 \u1072 \u1095 \u1077 \u1085 \u1080 \u1077  " << min << endl;\
+	system("pause");\
+	return 0;\
+\}}

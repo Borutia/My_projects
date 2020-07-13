@@ -1,0 +1,100 @@
+#include "stdafx.h"
+#include "iostream"
+#include "C:\Users\Дмитрий\Documents\Библиотеки\TXlib\TX\TXLib.h"
+using namespace std;
+void creat()
+{
+	txCreateWindow(800, 600);
+	txSetColor(TX_RED, 3);
+	txLine(400, 550, 400, 500);
+	txSetFillColor(TX_BLACK);
+	txCircle(400, 600, 50);
+}
+void target(int a)
+{
+	txSetFillColor(TX_WHITE);
+	txSetColor(TX_RED, 3);
+	txCircle(a, 150, 30);
+	txCircle(a, 150, 15);
+	txCircle(a, 150, 2);
+}
+void cannon()
+{
+	txLine(400, 550, 400, 500);
+	txSetFillColor(TX_BLACK);
+	txCircle(400, 600, 50);
+}
+int main()
+{
+	int score=0;
+	creat();
+	int c=0;
+	while (c < 5)
+	{
+		int a = 200 + rand() % 500;
+		bool good = false;
+		txSleep(200);
+		target(a);
+		while (good != true)
+			if (txMouseButtons() & 1)
+			{
+				txSetColor(TX_BLACK, 3);
+				cannon();
+				txSleep(200);
+
+				txSetColor(TX_RED, 3);
+				txLine(txMouseX(), 550, txMouseX(), 500);
+				txSetFillColor(TX_BLACK);
+				txCircle(txMouseX(), 600, 50);
+
+				txSleep(300);
+
+				txSetColor(TX_RED, 3);
+				txLine(txMouseX(), txMouseY() + 250, txMouseX(), txMouseY() + 200);
+				txSleep(200);
+				txSetColor(TX_BLACK, 10);
+				txLine(txMouseX(), txMouseY() + 250, txMouseX(), txMouseY() + 200);
+
+				txSetColor(TX_RED, 3);
+				txLine(txMouseX(), txMouseY() + 150, txMouseX(), txMouseY() + 100);
+				txSleep(200);
+				txSetColor(TX_BLACK, 10);
+				txLine(txMouseX(), txMouseY() + 150, txMouseX(), txMouseY() + 100);
+
+				txSetColor(TX_RED, 3);
+				txLine(txMouseX(), txMouseY() + 50, txMouseX(), txMouseY());
+
+				txSleep(100);
+
+				if ((txMouseX() == a || txMouseX() == a - 1 || txMouseX() == a + 1) && (txMouseY() == 150 || txMouseY() == 149 || txMouseY() == 151))
+				{
+					good = true;
+					score+=10;
+				}
+
+				txSetColor(TX_BLACK, 10);
+				txLine(txMouseX(), 550, txMouseX(), 500);
+				txSetFillColor(TX_BLACK);
+				txCircle(txMouseX(), 600, 200);
+
+				txSetColor(TX_RED, 3);
+				cannon();
+			}
+		c++;
+
+		if (c == 5)
+			break;
+		txSetFillColor(TX_BLACK);
+		txSetColor(TX_BLACK, 3);
+		txCircle(400, 300, 1000);
+
+		txSetColor(TX_RED, 3);
+		cannon();
+		system("cls");
+		txSelectFont("Times New Roman", 40);
+		printf("score: %d", score);
+		
+	}
+	system("pause");
+return 0;
+}

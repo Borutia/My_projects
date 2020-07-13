@@ -1,0 +1,79 @@
+#include "stdafx.h"
+#include <iostream>
+#include "fstream"
+using namespace std;
+
+
+
+int main()
+{
+	setlocale(LC_ALL, "");
+	int step;
+	ifstream f("1.txt");
+	f >> step;
+	int i;
+	char S[256];
+	f.getline(S,256);
+	f.getline(S, 256);
+	cout << "Исходный текст 1: " << S << endl;
+	if (step > 0)
+		cout << "Сдвиг на символов k = "<< step << " вправо" << endl;
+	else 
+		cout << "Сдвиг на символов k = " << step << " влево" << endl;
+	for (i = 0; i <strlen(S); i++)
+	{
+		if (S[i] == ' ' || S[i] == ',' || S[i] == '.' || S[i] == '!' || S[i] == '?')
+			continue;
+		if (step > 0)
+		{
+			S[i] = S[i] + step;
+			if (S[i] < -64)
+				S[i] = S[i] + 31;
+			if (S[i] >= -32)
+				S[i] = S[i] - 32;
+		}
+		else
+		{
+			S[i] = S[i] + step;
+			if (S[i] < -64 )
+				S[i] = S[i] + 32;
+			if(S[i]>-32)
+				S[i] = S[i] -32;
+		}
+
+	}
+	cout << "Результат - зашифрованный текст: " << S << endl;
+	f.getline(S, 256);
+	cout << endl << "Исходный текст 2: " << S << endl;
+	if (step < 0)
+		cout << "Сдвиг на символов k = " << step << " вправо" << endl;
+	else
+		cout << "Сдвиг на символов k = " << step << " влево" << endl;
+	for (i = 0; i <strlen(S); i++)
+	{
+		if (S[i] == ' ' || S[i] == ',' || S[i] == '.' || S[i] == '!' || S[i] == '?')
+			continue;
+		if (step > 0)
+		{
+			S[i] = S[i] - step;
+			if (S[i] < -64)
+				S[i] = S[i] + 32;
+			if (S[i] >= -32)
+				S[i] = S[i] - 32;
+		}
+		else
+		{
+			S[i] = S[i] - step;
+			if (S[i] >= -32)
+				S[i] = S[i] - 32;
+			if (S[i] < -64)
+				S[i] = S[i] + 32;
+		}
+
+		
+	}
+	cout << "Закодированный текст: " << S << endl;
+	f.close();
+	system("pause");
+	return 0;
+}

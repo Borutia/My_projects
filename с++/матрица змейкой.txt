@@ -1,0 +1,97 @@
+#include "stdafx.h"
+#include <iostream>
+#include "ctime"
+using namespace std;
+
+
+int main()
+{
+	setlocale(LC_ALL, "");
+	srand(time(0));
+	int arr[100];
+	int n;
+	cout << "n = ";
+	cin >> n;
+	int n2 = n;
+	n = pow(n, 2);
+	cout << "исходный массив для n = 3" << endl;
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = rand() % 20;
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+	int temp; 	 
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = 0; j < n - i - 1; j++) {
+			if (arr[j] > arr[j + 1]) {
+				temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+	}
+	cout << "после упорядочевания:" <<endl;
+	for (int i = 0; i < n; i++)
+		cout << arr[i] << " ";
+	cout << endl <<"вывод: " << endl;
+
+
+	int i, j, k = 0, c = 0, b, **ar;                                        
+	
+	n = n2;
+	ar = new int*[n];                                        
+	for (i = 0; i < n; i++)                                 
+		*(ar + i) = new int[n];              
+
+	b = n * n;                                            
+	
+	do                                                     
+	{                                                       
+		for (j = c; j < n - c; j++)                         
+		{              
+			
+			if (k > b)                                    
+				break;                                      
+			ar[c][j] = arr[k++];      
+			
+		}                                                  
+													
+		for (i = c + 1; i<n - c; i++)                     
+		{                                                 
+			if (k > b)                                     
+				break;                                      
+			ar[i][n - c - 1] = arr[k++];                   
+		}                                                  
+															
+		for (j = n - c - 2; j >= c; j--)                  
+		{                                                
+			if (k > b)                                 
+				break;                                  
+			ar[n - c - 1][j] = arr[k++];                         
+		}                                                 
+															
+		for (i = n - c - 2; i > c; i--)                     
+		{                                                   
+			if (k > b)                                 
+				break;                                      
+			ar[i][c] = arr[k++];                                   
+		}                                           
+													
+		c++;   
+		if (k == n*n)
+			k++;
+	}                                                   
+	while (k <= n * n);                                      														
+
+	for (i = 0; i < n; i++)                                 
+	{                                                       
+		for (j = 0; j < n-1; j++)                         
+			cout << ar[i][j] << "\t";                        
+		cout << ar[i][n - 1] << "\n";                        
+	}
+
+	cout << endl;
+	system("pause");
+	return 0;
+}

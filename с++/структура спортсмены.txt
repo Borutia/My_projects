@@ -1,0 +1,469 @@
+#include "stdafx.h"
+#include "iostream"
+#include "fstream"
+#include "string"
+#include "windows.h"
+using namespace std;
+
+struct sportsmen
+{
+	char sername[20];
+	float time_100;
+	float time_3;
+	float height;
+	float len;
+};
+int creat(sportsmen result[], int n)
+{
+	cout << endl;
+	cout << "Фамилия : ";
+	cin >> result[n].sername;
+	cout << "Время в беге на 100м : ";
+	cin >> result[n].time_100;
+	cout << "Время в беге на 3км : ";
+	cin >> result[n].time_3;
+	cout << "Прыжки в длину : ";
+	cin >> result[n].len;
+	cout << "Прыжки в высоту : ";
+	cin >> result[n].height;
+	n++;
+	return n;
+
+};
+void del(sportsmen result[])
+{
+	ifstream fin("result.txt");
+	char sername[20];
+	cout << "Введите фамилию для удаления записи : ";
+	cin >> sername;
+
+	char test_name[20];
+	int str=0;
+	while (fin >> test_name)
+	{
+		if (!strcmp(test_name, sername))
+			break;
+		fin.ignore(255, '\n');
+		str++;
+	}
+	fin.close();
+	fin.open("result.txt");
+	string line;
+	string text_file;
+	int str_test = 0;
+	while (getline(fin, line))
+	{
+		if (!(str == str_test))
+		{
+			text_file.insert(text_file.size(), line);
+			text_file.insert(text_file.size(), "\r\n");
+		}
+		str_test++;
+	}
+	fin.close();
+	ofstream fout;
+	fout.open("result.txt", ios::trunc, ios::binary);
+	fout.write(text_file.c_str(), text_file.size());
+	fout.close();
+}
+void change(sportsmen result[])
+{
+	string answer;
+	cout << "Вы хотите изменить результат? Y-да, N-нет " << endl;
+	cin >> answer;
+	if (answer == "Y")
+	{
+		ifstream fin("result.txt");
+		cout << endl;
+		int n = 0;
+		while (!fin.eof())
+		{
+			fin >> result[n].sername;
+			fin >> result[n].time_100;
+			fin >> result[n].time_3;
+			fin >> result[n].len;
+			fin >> result[n].height;
+			n++;
+		}
+		char name[20];
+		cout << "Введите фамилию для изменения : " ;
+		cin >> name;
+		int number;
+		cout << "1)Время в беге на 100м " << endl;
+		cout << "2)Время в беге на 3км " << endl;
+		cout << "3)Прыжки в длину  " << endl;
+		cout << "4)Прыжки в высоту   " << endl;
+		cout << "Какой результат вы хотите поменять: " << endl;
+		cin >> number;
+		int value;
+		cout << "Введите значение на которое изменить: ";
+		cin >> value;
+		switch (number)
+		{
+		case 1:
+		{
+			for (int i = 0; i < n; i++)
+			{
+				if (!strcmp(name, result[i].sername))
+				{
+					result[i].time_100 = value;
+					break;
+				}
+			}
+			break;
+		}
+		case 2:
+		{
+			for (int i = 0; i < n; i++)
+			{
+				if (!strcmp(name, result[i].sername))
+				{
+					result[i].time_3 = value;
+					break;
+				}
+			}
+			break;
+		}
+		case 3:
+		{
+			for (int i = 0; i < n; i++)
+			{
+				if (!strcmp(name, result[i].sername))
+				{
+					result[i].len = value;
+					break;
+				}
+			}
+			break;
+		}
+		case 4:
+		{
+			for (int i = 0; i < n; i++)
+			{
+				if (!strcmp(name, result[i].sername))
+				{
+					result[i].height = value;
+					break;
+				}
+			}
+			break;
+		}
+		default:
+			break;
+		}
+
+		fin.close();
+		ofstream fout;
+		fout.open("result.txt");
+		for (int i = 0; i < n-1; i++)
+		{
+			fout << result[i].sername << " ";
+			fout << result[i].time_100 << " ";
+			fout << result[i].time_3 << " ";
+			fout << result[i].len << " ";
+			fout << result[i].height << " ";
+			fout << endl;
+		}
+		cout << "Данные сохранены!" << endl << endl;
+		fout.close();
+		n = 0;
+	}
+}
+int save(sportsmen result[], int n)
+{
+	ofstream fout;
+	fout.open("result.txt", ios::app);
+	for (int i = 0; i < n; i++)
+	{
+		fout << result[i].sername << " " ;
+		fout << result[i].time_100 << " ";
+		fout << result[i].time_3  << " ";
+		fout << result[i].len << " ";
+		fout << result[i].height << " ";
+		fout << endl;
+	}
+	cout << "Данные сохранены!" << endl << endl;
+	fout.close();
+	n = 0;
+	return n;
+}
+void print(sportsmen result[], int n)
+{
+	ifstream fin("result.txt");
+	cout << endl;
+	n = 0;
+	while(!fin.eof())
+	{
+		fin >> result[n].sername;
+		fin >> result[n].time_100;
+		fin >> result[n].time_3;
+		fin >> result[n].len;
+		fin >> result[n].height;
+		n++;
+	}
+	for (int i = 0; i < n - 1; i++)
+	{
+		cout << "Фамилия : " << result[i].sername << endl;
+		cout << "Время в беге на 100м: " << result[i].time_100 << endl;
+		cout << "Время в беге на 3км: " << result[i].time_3 << endl;
+		cout << "Прыжки в длину: " << result[i].len << endl;
+		cout << "Прыжки в высоту: " << result[i].height << endl;
+		cout << endl;
+	}
+	fin.close();
+}
+void best(sportsmen result[])
+{
+	ifstream fin("result.txt");
+	cout << endl;
+	int n = 0;
+	while (!fin.eof())
+	{
+		fin >> result[n].sername;
+		fin >> result[n].time_100;
+		fin >> result[n].time_3;
+		fin >> result[n].len;
+		fin >> result[n].height;
+		n++;
+	}
+	fin.close();
+	n -= 1;
+	int number;
+	cout << endl << "1)Время в беге на 100м  " << endl;
+	cout << "2)Время в беге на 3км " << endl;
+	cout << "3)Прыжки в длину " << endl;
+	cout << "4)Прыжки в высоту  " << endl;
+	cout << "Выберите спорт: " << endl;
+	cin >> number;
+	switch (number)
+	{
+	case 1:
+	{
+		float good = 10000;
+		int good_i;
+		for (int i = 0; i < n; i++)
+		{
+			if (result[i].time_100 < good)
+			{
+				good = result[i].time_100;
+				good_i = i;
+			}
+		}
+		cout << "Лучший спортсмен в беге на 100м: " << result[good_i].sername << endl;
+		break;
+	}
+	case 2:
+	{
+		float good = 10000;
+		int good_i;
+		for (int i = 0; i < n; i++)
+		{
+			if (result[i].time_3 < good)
+			{
+				good = result[i].time_3;
+				good_i = i;
+			}
+		}
+		cout << "Лучший спортсмен в беге на 3км: " << result[good_i].sername << endl;
+		break;
+	}
+	case 3:
+	{
+		float good = 0;
+		int good_i;
+		for (int i = 0; i < n; i++)
+		{
+			if (result[i].len > good)
+			{
+				good = result[i].len;
+				good_i = i;
+			}
+		}
+		cout << "Лучший спортсмен в прыжках в длину:  " << result[good_i].sername << endl;
+		break;
+	}
+	case 4:
+	{
+		float good = 0;
+		int good_i;
+		for (int i = 0; i < n; i++)
+		{
+			if (result[i].height > good)
+			{
+				good = result[i].height;
+				good_i = i;
+			}
+		}
+		cout << "Лучший спортсмен в прыжках в высоту:  " << result[good_i].sername << endl;
+		break;
+	}
+	default:
+		break;
+
+	}
+	n = 0;
+}
+void information(sportsmen result[])
+{
+	ifstream fin("result.txt");
+	cout << endl;
+	int n = 0;
+	while (!fin.eof())
+	{
+		fin >> result[n].sername;
+		fin >> result[n].time_100;
+		fin >> result[n].time_3;
+		fin >> result[n].len;
+		fin >> result[n].height;
+		n++;
+	}
+	fin.close();
+	n -= 1;
+	int number;
+	char name[20];
+	cout << "Фамилия спортсмена: ";
+	cin >> name;
+	cout << endl << "1)Время в беге на 100м  " << endl;
+	cout << "2)Время в беге на 3км  " << endl;
+	cout << "3)Прыжки в длину " << endl;
+	cout << "4)Прыжки в высоту " << endl;
+	cout << "Выберите спорт: " << endl;
+	cin >> number;
+	switch (number)
+	{
+	case 1:
+	{
+		for (int i = 0; i < n; i++)
+		{
+			if (!strcmp(name, result[i].sername))
+			{
+				cout << endl << result[i].sername << " " << result[i].time_100 << endl;
+				break;
+			}
+		}
+		break;
+	}
+	case 2:
+	{
+		for (int i = 0; i < n; i++)
+		{
+			if (!strcmp(name, result[i].sername))
+			{
+				cout << endl << result[i].sername << " " << result[i].time_3 << endl;
+				break;
+			}
+		}
+		break;
+	}
+	case 3:
+	{
+		for (int i = 0; i < n; i++)
+		{
+			if (!strcmp(name, result[i].sername))
+			{
+				cout << endl << result[i].sername << " " << result[i].len << endl;
+				break;
+			}
+		}
+		break;
+	}
+	case 4:
+	{
+		for (int i = 0; i < n; i++)
+		{
+			if (!strcmp(name, result[i].sername))
+			{
+				cout << endl << result[i].sername << " " << result[i].height << endl;
+				break;
+			}
+		}
+		break;
+	}
+	default:
+		break;
+	}
+}
+void clear()
+{
+	ofstream fin("result.txt");
+	
+	fin.close();
+}
+void menu(sportsmen result[])
+{
+	int number;
+	int n = 0;
+	for (;;)
+	{
+		cout << endl;
+		cout << "1)добавить спортсмена " << endl;
+		cout << "2)сохранить данные" << endl;
+		cout << "3)вывод файла" << endl;
+		cout << "4)лучший спортсмен" << endl;
+		cout << "5)информация о спортсмене" << endl;
+		cout << "6)удалить информацию о спортсмене" << endl;
+		cout << "7)изменить результат"<<endl;
+		cout << "8)очистка файла" << endl;
+		cout << "9)выход" << endl;
+		cout << "Введите цифру: ";
+		cin >> number;
+		switch (number)
+		{
+		case 1: {
+			n = creat(result, n);
+			break;
+		}
+		case 2: {
+			n = save(result, n);
+			break;
+		}
+		case 3: {
+			print(result, n);
+			break;
+		}
+		case 4:
+		{
+			best(result);
+			break;
+		}
+		case 5:
+		{
+			information(result);
+			break;
+		}
+		case 6:
+		{
+			del(result);
+			break;
+		}
+		case 7:
+		{
+			change(result);
+			break;
+		}
+		case 8:
+		{
+			clear();
+			break;
+		}
+		case 9:
+		{
+			exit(0);
+		}
+		default:
+			break;
+		}
+	}
+}
+
+int main()
+{
+	setlocale(LC_ALL, "");
+	sportsmen result[100];
+	menu(result);
+	
+	system("pause");
+	return 0;
+}
+
+

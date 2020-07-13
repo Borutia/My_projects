@@ -1,0 +1,152 @@
+#include "stdafx.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <Windows.h>
+#include <conio.h>
+
+// С помощью текстового редактора создать файл, содержащий текст, длина 
+// которого не превышает 1000 символов (длина строки теста не должна превышать 70 символов)
+// Реализовать программу, которая:
+// - выводит текст на экран дисплея;
+// - определяет количество предложений и количество слов в каждом предложении;
+// - по нажатию произвольной клавиши поочередно выделяет цветом каждое предложение текста, 
+// а в выделенном предложении – поочередно все слова.
+
+
+using namespace std;
+
+#define ESC 27
+
+typedef vector< vector<string> > MY_TEXT;
+
+enum ConsoleColor
+{
+	Black = 0,
+	Blue = 1,
+	Green = 2,
+	Cyan = 3,
+	Red = 4,
+	Magenta = 5,
+	Brown = 6,
+	LightGray = 7,
+	DarkGray = 8,
+	LightBlue = 9,
+	LightGreen = 10,
+	LightCyan = 11,
+	LightRed = 12,
+	LightMagenta = 13,
+	Yellow = 14,
+	White = 15
+};
+
+// устанавливает цвет текста и подложки в консоли
+void SetColor(int text, int background)
+{
+	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hStdOut, (WORD)((background << 4) | text));
+}
+
+
+void Menu(void)
+{
+	system("cls");
+	cout << "Меню:" << endl;
+	cout << "1. Вывод текста" << endl;
+	cout << "2. Вывод информации о тексте" << endl;
+	cout << "3. Цветное представление" << endl;
+	cout << "Для выхода нажмите ESC" << endl;
+}
+
+void PrintText(MY_TEXT & text)
+{
+	for (MY_TEXT::iterator it = text.begin(); it<text.end(); it++)
+	{
+		for (vector<string>::iterator itt = (*it).begin(); itt<(*it).end(); itt++)
+			cout << " " << *itt;
+	}
+}
+
+void PrintText(MY_TEXT & text, int numSentece, int numWord)
+{
+	int numS = 0, numW = 0;
+	for (MY_TEXT::iterator it = text.begin(); it<text.end(); it++, numS++)
+	{
+		if (numS == numSentece) SetColor(Yellow, Black);
+		for (vector<string>::iterator itt = (*it).begin(); itt<(*it).end(); itt++, numW++)
+		{
+			if (numW == numWord) SetColor(LightCyan, Black);
+			cout << " " << *itt;
+			if (numW == numWord) SetColor(Yellow, Black);
+		}
+		if (numS == numSentece) SetColor(LightGray, Black);
+	}
+}
+
+
+int main()
+{
+	char *File = "1.dat", key = 0;
+	MY_TEXT text;
+	vector<string> sentence;
+	string str;
+	int countWord = 0;
+	int numSentence, numWord;
+	setlocale(LC_ALL, "Russian");
+
+	ifstream f(File);
+	if (!(f.is_open()))  // проверка наличия файла с тестом
+		cout << "ERROR: not file " << File;
+	else
+	{
+		while (!f.eof()) // чтении из файла
+		{
+			f >> str; /*cout<<" ";    cout<<str; */
+			sentence.push_back(str);
+
+			if (str[str.length() - 1] == '.' || str[str.length() - 1] == '!' || str[str.length() - 1] == '?')
+			{
+				text.push_back(sentence);
+				sentence.clear();
+			}
+		}
+	}
+	do
+	{
+		Menu();
+		switch (key)
+		{
+		case '1':
+			PrintText(text);
+			break;
+		case '2':
+			numWord = 0;
+			cout << "\n\nОбщее количество предложений: " << text.size() << endl;
+			break;
+		case '3':
+			numSentence = 0; numWord = 0;
+
+			for (MY_TEXT::iterator it = text.begin(); it<text.end(); it++, numSentence++)
+			{
+				for (vector<string>::iterator itt = (*it).begin(); itt<(*it).end(); itt++, numWord++)
+				{
+					system("cls");
+					PrintText(text, numSentence, numWord);
+					_getch();
+				}
+			}
+
+
+			break;
+		}
+	} while ((key = _getch()) != ESC);
+
+
+
+
+	f.close();
+	cout << endl;
+	system("PAUSE");
+	return 0;
+}

@@ -1,0 +1,81 @@
+#pragma once
+#include "string"
+using namespace std;
+const int maxsize = 250;
+
+
+void cinlong(int *mas) // Зеркально сохраняем цифры в массив
+{
+	string s;
+	cin >> s;
+	for (int i = 0; i<maxsize; ++i)
+		mas[i] = 0;
+
+	int len;
+	len = s.length();
+	for (int i = 0; i<len; i++)
+		mas[len - i] = int(s[i]) - 48;
+}
+
+void coutlong(int *mas) // выводим задом на перёд
+{
+	int i = maxsize - 1;
+	while (mas[i] == 0 && i > 1)
+		i--;
+
+	for (int j = i; j >= 1; j--)
+		cout << mas[j];
+	cout << endl;
+}
+void addition(int *m, int *n)
+{
+	int c = 0;
+	for (int i = 1; i < maxsize; ++i) // Сложение (с - остаток который может получиться при сложении поэтому делим его нацело)
+	{
+		c = c + m[i] + n[i];
+		m[i] = c % 10;
+		c /= 10;
+	}
+}
+void mult(int *x, int b)
+{
+	int z[maxsize]; 
+	int perenos = 0; 
+					 
+	for (int i = 1; i < maxsize; i++)
+	{
+		int t = x[i] * b + perenos;
+		x[i] = t % 10; 
+		perenos = t / 10; 
+	}
+	if (perenos > 0)  
+		x[0] = perenos;
+}
+
+#include "stdafx.h"
+#include "iostream"
+#include "header.h"
+
+using namespace std;
+
+int main()
+{
+	setlocale(LC_ALL, "");
+	
+	int k = 0, m[maxsize], n[maxsize];
+	cout << "m = ";
+	cinlong(m);
+	cout << "n = ";
+	cinlong(n);
+	cout << "k = ";
+	cin >> k;
+	mult(m, k);
+	addition(m, n);
+	coutlong(m);
+
+	
+
+
+	system("pause");
+	return 0;
+}

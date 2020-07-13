@@ -1,0 +1,44 @@
+//дан текст: вывесли слова и кол-во их повторений
+#include "stdafx.h"
+#include<iostream>
+#include<map>
+#include<string>
+#include<sstream>
+#include<algorithm>
+#include<iomanip>
+
+
+int main() {
+	std::string text = "aa  ss   aaa   aa ss aa";
+	std::stringstream ss(text);
+	std::map<std::string, int> wordCon;
+	while (ss >> text) {
+		++wordCon[text];
+	}
+	std::for_each(wordCon.begin(), wordCon.end(), [](std::pair<std::string, int> val) {
+		std::cout << std::setw(15) << std::left << val.first << " " << val.second << "\n"; });
+	system("pause");
+	return 0;
+}
+
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+ 
+int Cmp(const void* a, const void* b){
+    return strcmp(*(char**)a, *(char**)b);
+}
+ 
+int main(){
+    char text[]="aa  ss   aaa   aa ss aa", *p=NULL, *mas[100]={NULL}, **a=mas, **b=mas;
+    for(p=strtok(text, " "); p; p=strtok(NULL, " "), ++a){
+        *a=p;
+    }
+    qsort(mas, a-mas, sizeof(*mas), Cmp);
+    for(a=mas; *a; ){
+        for(b=a; *a&&!strcmp(*b, *a); ++a);
+        printf("%-15s %d\n", *b, a-b);
+    }
+    return 0;
+}

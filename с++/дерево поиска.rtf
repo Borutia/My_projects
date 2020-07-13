@@ -1,0 +1,191 @@
+{\rtf1\ansi\ansicpg1251\cocoartf1561\cocoasubrtf200
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 #include "stdafx.h"\
+#include <iostream>\
+#include <Windows.h>\
+#include <conio.h>\
+#include <cmath>\
+using namespace std;\
+struct BinTree \{\
+	int value; //\uc0\u1089 \u1086 \u1076 \u1077 \u1088 \u1078 \u1080 \u1090  \u1079 \u1085 \u1072 \u1095 \u1077 \u1085 \u1080 \u1077 \
+	BinTree* left;//\uc0\u1072 \u1076 \u1088 \u1077 \u1089  \u1083 \u1077 \u1074 \u1086 \u1075 \u1086  \u1087 \u1086 \u1076 \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 \
+	BinTree* right;//\uc0\u1072 \u1076 \u1088 \u1077 \u1089  \u1087 \u1088 \u1072 \u1074 \u1086 \u1075 \u1086  \u1087 \u1086 \u1076 \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 \
+\};\
+//\uc0\u1060 \u1091 \u1085 \u1082 \u1094 \u1080 \u1103  \u1076 \u1083 \u1103  \u1089 \u1086 \u1079 \u1076 \u1072 \u1085 \u1080 \u1103  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 \
+//\uc0\u1042 \u1093 \u1086 \u1076 : \u1079 \u1085 \u1072 \u1095 \u1077 \u1085 \u1080 \u1077  \u1073 \u1091 \u1076 \u1091 \u1097 \u1077 \u1075 \u1086  \u1091 \u1079 \u1083 \u1072 ,\u1091 \u1079 \u1077 \u1083  \u1073 \u1080 \u1085 \u1072 \u1088 \u1085 \u1086 \u1075 \u1086  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 \
+//\uc0\u1042 \u1099 \u1093 \u1086 \u1076 : \u1091 \u1087 \u1086 \u1088 \u1103 \u1076 \u1086 \u1095 \u1077 \u1085 \u1086 \u1077  \u1073 \u1080 \u1085 \u1072 \u1088 \u1085 \u1086 \u1077  \u1076 \u1077 \u1088 \u1077 \u1074 \u1086 \u1073 ,\u1079 \u1072 \u1087 \u1086 \u1083 \u1077 \u1085 \u1086 \u1077  \u1079 \u1085 \u1072 \u1095 \u1077 \u1085 \u1080 \u1103 \u1084 \u1080 \
+void newBinTree(int val, BinTree** Tree) \{\
+	if ((*Tree) == NULL)\
+	\{\
+		(*Tree) = new BinTree; //\uc0\u1042 \u1099 \u1076 \u1077 \u1083 \u1080 \u1090 \u1100  \u1087 \u1072 \u1084 \u1103 \u1090 \u1100 \
+		(*Tree)->value = val;  //\uc0\u1055 \u1086 \u1084 \u1077 \u1089 \u1090 \u1080 \u1090 \u1100  \u1074  \u1074 \u1099 \u1076 \u1077 \u1083 \u1077 \u1085 \u1085 \u1086 \u1077  \u1084 \u1077 \u1089 \u1090 \u1086  \u1072 \u1088 \u1075 \u1091 \u1084 \u1077 \u1085 \u1090 \
+		(*Tree)->left = (*Tree)->right = NULL;\
+		return;\
+	\}\
+	if (val > (*Tree)->value) newBinTree(val, &(*Tree)->right);//\uc0\u1045 \u1089 \u1083 \u1080  \u1072 \u1088 \u1075 \u1091 \u1084 \u1077 \u1085 \u1090  \u1073 \u1086 \u1083 \u1100 \u1096 \u1077  \u1095 \u1077 \u1084  \u1090 \u1077 \u1082 \u1091 \u1097 \u1080 \u1081  \u1101 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090 , \u1087 \u1086 \u1084 \u1077 \u1089 \u1090 \u1080 \u1090 \u1100  \u1077 \u1075 \u1086  \u1074 \u1087 \u1088 \u1072 \u1074 \u1086 \
+	else newBinTree(val, &(*Tree)->left);//\uc0\u1048 \u1085 \u1072 \u1095 \u1077  \u1087 \u1086 \u1084 \u1077 \u1089 \u1090 \u1080 \u1090 \u1100  \u1077 \u1075 \u1086  \u1074 \u1083 \u1077 \u1074 \u1086 \
+\}\
+//\uc0\u1044 \u1083 \u1103  \u1087 \u1077 \u1095 \u1072 \u1090 \u1080  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 \
+void Print(BinTree**Tree, int l)\
+\{\
+	int i;\
+\
+	if (*Tree != NULL)\
+	\{\
+		Print(&((**Tree).right), l + 1);\
+		for (i = 1; i <= l; i++) cout << "   ";\
+		cout << (**Tree).value << endl;\
+		Print(&((**Tree).left), l + 1);\
+	\}\
+\}\
+\
+void TreeTraversalAndPrint(BinTree* Root) \{\
+	if (Root != NULL) \{\
+		cout << Root->value << endl;\
+		TreeTraversalAndPrint(Root->left);\
+		TreeTraversalAndPrint(Root->right);\
+\
+	\}\
+\}\
+\
+void TreeTraversalAndPrint2(BinTree* Root) \{\
+	if (Root != NULL) \{\
+		TreeTraversalAndPrint2(Root->left);\
+		TreeTraversalAndPrint2(Root->right);\
+		cout << Root->value << endl;\
+	\}\
+\}\
+void TreeTraversalAndPrint3(BinTree* Root) \{\
+	if (Root != NULL) \{\
+		TreeTraversalAndPrint2(Root->left);\
+		cout << Root->value << endl;\
+		TreeTraversalAndPrint2(Root->right);\
+	\}\
+\}\
+//\uc0\u1058 \u1072 \u1082  \u1082 \u1072 \u1082  \u1074  \u1073 \u1080 \u1085 \u1072 \u1088 \u1085 \u1086 \u1084  \u1076 \u1077 \u1088 \u1077 \u1074 \u1077  \u1087 \u1086 \u1080 \u1089 \u1082 \u1072  \u1076 \u1083 \u1103  \u1082 \u1072 \u1078 \u1076 \u1086 \u1075 \u1086  \u1091 \u1079 \u1083 \u1072  \u1089 \u1087 \u1088 \u1072 \u1074 \u1077 \u1076 \u1083 \u1080 \u1074 \u1086 , \u1095 \u1090 \u1086  left < right, \
+//\uc0\u1090 \u1086  \u1089 \u1086 \u1086 \u1090 \u1074 \u1077 \u1090 \u1089 \u1090 \u1074 \u1077 \u1085 \u1085 \u1086  \u1076 \u1083 \u1103  \u1085 \u1072 \u1093 \u1086 \u1078 \u1076 \u1077 \u1085 \u1080 \u1103  \u1085 \u1072 \u1080 \u1084 \u1077 \u1085 \u1100 \u1096 \u1077 \u1085 \u1075 \u1086  \u1101 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090 \u1072  \
+//\uc0\u1085 \u1072 \u1076 \u1086  \u1090 \u1086 \u1087 \u1072 \u1090 \u1100  \u1086 \u1090  \u1082 \u1086 \u1088 \u1085 \u1103  \u1087 \u1086  \u1083 \u1077 \u1074 \u1099 \u1084  \u1074 \u1077 \u1090 \u1082 \u1072 \u1084  \u1076 \u1086  \u1091 \u1087 \u1086 \u1088 \u1072  - \u1090 \u1072 \u1084  \u1080  \u1073 \u1091 \u1076 \u1077 \u1090  \u1085 \u1072 \u1080 \u1084 \u1077 \u1085 \u1100 \u1096 \u1080 \u1081 .\
+BinTree* MinValue(BinTree* Tree)\
+\{\
+	if (Tree->left != NULL) \{\
+		return MinValue(Tree->left);\
+	\}\
+	else \{\
+		return Tree;\
+	\}\
+\}\
+//\uc0\u1058 \u1072 \u1082  \u1082 \u1072 \u1082  \u1074  \u1073 \u1080 \u1085 \u1072 \u1088 \u1085 \u1086 \u1084  \u1076 \u1077 \u1088 \u1077 \u1074 \u1077  \u1087 \u1086 \u1080 \u1089 \u1082 \u1072  \u1076 \u1083 \u1103  \u1082 \u1072 \u1078 \u1076 \u1086 \u1075 \u1086  \u1091 \u1079 \u1083 \u1072  \u1089 \u1087 \u1088 \u1072 \u1074 \u1077 \u1076 \u1083 \u1080 \u1074 \u1086 , \u1095 \u1090 \u1086  left < right, \
+//\uc0\u1090 \u1086  \u1089 \u1086 \u1086 \u1090 \u1074 \u1077 \u1090 \u1089 \u1090 \u1074 \u1077 \u1085 \u1085 \u1086  \u1076 \u1083 \u1103  \u1085 \u1072 \u1093 \u1086 \u1078 \u1076 \u1077 \u1085 \u1080 \u1103  \u1085 \u1072 \u1080 \u1073 \u1086 \u1083 \u1100 \u1096 \u1077 \u1075 \u1086  \u1101 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090 \u1072  \
+//\uc0\u1085 \u1072 \u1076 \u1086  \u1090 \u1086 \u1087 \u1072 \u1090 \u1100  \u1086 \u1090  \u1082 \u1086 \u1088 \u1085 \u1103  \u1087 \u1086  \u1087 \u1088 \u1072 \u1074 \u1099 \u1084  \u1074 \u1077 \u1090 \u1082 \u1072 \u1084  \u1076 \u1086  \u1091 \u1087 \u1086 \u1088 \u1072  - \u1090 \u1072 \u1084  \u1080  \u1073 \u1091 \u1076 \u1077 \u1090  \u1085 \u1072 \u1080 \u1073 \u1086 \u1083 \u1100 \u1096 \u1080 \u1081 .\
+BinTree* MaxValue(BinTree* Tree)\
+\{\
+	if (Tree->right != NULL) \{\
+		return  MaxValue(Tree->right);\
+	\}\
+	else \{\
+		return Tree;\
+	\}\
+\}\
+int NumberOfNodes(BinTree* Tree) \{\
+	if (Tree == NULL) return 0;\
+	return NumberOfNodes(Tree->left) + 1 + NumberOfNodes(Tree->right);\
+\}\
+\
+int ListCount(BinTree* node)\
+\{\
+	if (!node)\
+		return 0;\
+	if (!node->left && !node->right)\
+		return 1;\
+	return  ListCount(node->left) + ListCount(node->right);\
+\}\
+\
+//\uc0\u1042 \u1099 \u1089 \u1086 \u1090 \u1072 (\u1084 \u1072 \u1082 \u1089 \u1080 \u1084 \u1072 \u1083 \u1100 \u1085 \u1072 \u1103  \u1075 \u1083 \u1091 \u1073 \u1080 \u1085 \u1072 ) \u1076 \u1077 \u1088 \u1077 \u1074 \u1072  \u1086 \u1087 \u1088 \u1077 \u1076 \u1077 \u1083 \u1103 \u1077 \u1090 \u1089 \u1103  \u1082 \u1086 \u1083 \u1080 \u1095 \u1077 \u1089 \u1090 \u1074 \u1086 \u1084  \u1091 \u1088 \u1086 \u1074 \u1085 \u1077 \u1081 , \
+//\uc0\u1085 \u1072  \u1082 \u1086 \u1090 \u1086 \u1088 \u1099 \u1093  \u1088 \u1072 \u1089 \u1087 \u1086 \u1083 \u1072 \u1075 \u1072 \u1102 \u1090 \u1089 \u1103  \u1077 \u1075 \u1086  \u1074 \u1077 \u1088 \u1096 \u1080 \u1085 \u1099 .\
+//\uc0\u1042 \u1099 \u1089 \u1086 \u1090 \u1072  \u1087 \u1091 \u1089 \u1090 \u1086 \u1075 \u1086  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072  \u1088 \u1072 \u1074 \u1085 \u1072  \u1085 \u1091 \u1083 \u1102 , \u1074 \u1099 \u1089 \u1086 \u1090 \u1072  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072  \u1080 \u1079  \u1086 \u1076 \u1085 \u1086 \u1075 \u1086  \u1082 \u1086 \u1088 \u1085 \u1103  \'96 \u1077 \u1076 \u1080 \u1085 \u1080 \u1094 \u1077 .\
+//\uc0\u1053 \u1072  \u1087 \u1077 \u1088 \u1074 \u1086 \u1084  \u1091 \u1088 \u1086 \u1074 \u1085 \u1077  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072  \u1084 \u1086 \u1078 \u1077 \u1090  \u1073 \u1099 \u1090 \u1100  \u1090 \u1086 \u1083 \u1100 \u1082 \u1086  \u1086 \u1076 \u1085 \u1072  \u1074 \u1077 \u1088 \u1096 \u1080 \u1085 \u1072  \'96 \u1082 \u1086 \u1088 \u1077 \u1085 \u1100  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 , \
+//\uc0\u1085 \u1072  \u1074 \u1090 \u1086 \u1088 \u1086 \u1084  \'96 \u1087 \u1086 \u1090 \u1086 \u1084 \u1082 \u1080  \u1082 \u1086 \u1088 \u1085 \u1103  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 , \u1085 \u1072  \u1090 \u1088 \u1077 \u1090 \u1100 \u1077 \u1084  \'96 \u1087 \u1086 \u1090 \u1086 \u1084 \u1082 \u1080  \u1087 \u1086 \u1090 \u1086 \u1084 \u1082 \u1086 \u1074  \u1082 \u1086 \u1088 \u1085 \u1103  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072  \u1080  \u1090 .\u1076 .\
+int HeightBTree(BinTree* Tree) \{\
+	int x = 0, y = 0;\
+	if (Tree == NULL) return 0;     //\uc0\u1087 \u1091 \u1089 \u1090 \u1086 \u1077  \u1076 \u1077 \u1088 \u1077 \u1074 \u1086  \u1080 \u1083 \u1080  \u1076 \u1086 \u1096 \u1083 \u1080  \u1076 \u1086  \u1083 \u1080 \u1089 \u1090 \u1072 \
+	if (Tree->left) x = HeightBTree(Tree->left); //\uc0\u1074 \u1099 \u1089 \u1086 \u1090 \u1072  \u1083 \u1077 \u1074 \u1086 \u1075 \u1086  \u1087 \u1086 \u1076 \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 \
+	if (Tree->right) y = HeightBTree(Tree->right);  //\uc0\u1074 \u1099 \u1089 \u1086 \u1090 \u1072  \u1087 \u1088 \u1072 \u1074 \u1086 \u1075 \u1086  \u1087 \u1086 \u1076 \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 \
+	if (x > y) return x + 1;    //+1 \uc0\u1086 \u1090  \u1082 \u1086 \u1088 \u1085 \u1103  \u1082  \u1083 \u1077 \u1074 \u1086 \u1084 \u1091  \u1087 \u1086 \u1076 \u1076 \u1077 \u1088 \u1077 \u1074 \u1091 \
+	else return y + 1;   //+1 \uc0\u1086 \u1090  \u1082 \u1086 \u1088 \u1085 \u1103  \u1082  \u1087 \u1088 \u1072 \u1074 \u1086 \u1084 \u1091  \u1087 \u1086 \u1076 \u1076 \u1077 \u1088 \u1077 \u1074 \u1091 \
+\}\
+//\uc0\u1087 \u1086 \u1080 \u1089 \u1082  \u1101 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090 \u1072  \u1074  \u1073 \u1080 \u1085 \u1072 \u1088 \u1085 \u1086 \u1084  \u1076 \u1077 \u1088 \u1077 \u1074 \u1077  \u1087 \u1086 \u1080 \u1089 \u1082 \u1072 \
+BinTree* Search(BinTree* Tree, int key) \{\
+	if (Tree == NULL) return NULL;\
+	if (Tree->value == key) return Tree;\
+	if (key < Tree->value) return Search(Tree->left, key);\
+	else\
+		return Search(Tree->right, key);\
+\}\
+\
+\
+void DestroyBTree(BinTree* Tree) \{\
+	if (Tree != NULL) \{\
+		DestroyBTree(Tree->left);\
+		DestroyBTree(Tree->right);\
+		delete(Tree);\
+	\}\
+\}\
+void MenuProc() \{\
+	BinTree* Tree = NULL;\
+	char variant;\
+	int val;\
+	cout << "\uc0\u1044 \u1083 \u1103  \u1087 \u1088 \u1086 \u1074 \u1077 \u1088 \u1082 \u1080  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072  \u1077 \u1075 \u1086  \u1085 \u1077 \u1086 \u1073 \u1093 \u1086 \u1076 \u1080 \u1084 \u1086  \u1089 \u1086 \u1079 \u1076 \u1072 \u1090 \u1100 " << endl;\
+	while (_getch() != 27) \{\
+		cout << "\uc0\u1074 \u1077 \u1076 \u1080 \u1090 \u1077  \u1079 \u1085 \u1072 \u1095 \u1077 \u1085 \u1080 \u1077  (\u1076 \u1083 \u1103  \u1079 \u1072 \u1074 \u1077 \u1088 \u1096 \u1077 \u1085 \u1080 \u1103  \u1074 \u1074 \u1086 \u1076 \u1072  \u1085 \u1072 \u1078 \u1084 \u1080 \u1090 \u1077  ESC) ";\
+		cin >> val;\
+		newBinTree(val, &Tree);\
+	\}\
+	Print(&Tree, 0);\
+	cout << "\uc0\u1055 \u1088 \u1103 \u1084 \u1086 \u1081  \u1086 \u1073 \u1093 \u1086 \u1076  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 " << endl;\
+	TreeTraversalAndPrint(Tree);\
+	cout << "\uc0\u1054 \u1073 \u1088 \u1072 \u1090 \u1085 \u1099 \u1081  \u1086 \u1073 \u1093 \u1086 \u1076  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 " << endl;\
+	TreeTraversalAndPrint2(Tree);\
+	cout << "C\uc0\u1080 \u1084 \u1084 \u1077 \u1090 \u1088 \u1080 \u1095 \u1085 \u1099 \u1081  \u1086 \u1073 \u1093 \u1086 \u1076  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 " << endl;\
+	TreeTraversalAndPrint3(Tree);\
+	cout << "\uc0\u1052 \u1080 \u1085 \u1080 \u1084 \u1072 \u1083 \u1100 \u1085 \u1099 \u1081  \u1101 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 -> ";\
+	BinTree* min = MinValue(Tree);\
+	cout << min->value;\
+	cout << endl << "\uc0\u1052 \u1072 \u1082 \u1089 \u1080 \u1084 \u1072 \u1083 \u1100 \u1085 \u1099 \u1081  \u1101 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 -> ";\
+	BinTree* max = MaxValue(Tree);\
+	cout << max->value;\
+	cout << endl;\
+	cout << "\uc0\u1042 \u1099 \u1089 \u1086 \u1090 \u1072  \u1076 \u1077 \u1088 \u1077 \u1074 \u1072 -> ";\
+	int Heigh = HeightBTree(Tree);\
+	cout << Heigh;\
+	cout << endl;\
+	cout << "\uc0\u1050 \u1086 \u1083 \u1080 \u1095 \u1077 \u1089 \u1090 \u1074 \u1086  \u1101 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090 \u1086 \u1074  \u1074  \u1076 \u1077 \u1088 \u1077 \u1074 \u1077 -> ";\
+	int a = NumberOfNodes(Tree);\
+	cout << a << endl;\
+	cout << "\uc0\u1050 \u1086 \u1083 \u1080 \u1095 \u1077 \u1089 \u1090 \u1074 \u1086  \u1083 \u1080 \u1089 \u1090 \u1086 \u1074  \u1074  \u1076 \u1077 \u1088 \u1077 \u1074 \u1077 -> ";\
+	int b = ListCount(Tree);\
+	cout << b << endl;\
+	cout << "\uc0\u1055 \u1086 \u1080 \u1089 \u1082  \u1101 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090 \u1072 " << endl;\
+	int key;\
+	cout << "\uc0\u1042 \u1074 \u1077 \u1076 \u1080 \u1090 \u1077  \u1079 \u1085 \u1072 \u1095 \u1077 \u1085 \u1080 \u1077  \u1101 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090 \u1072  \u1076 \u1083 \u1103  \u1087 \u1086 \u1080 \u1089 \u1082 \u1072 -> ";\
+	cin >> key;\
+	BinTree* Tree1 = Search(Tree, key);\
+	if (Tree1 == NULL)\
+		cout << "\uc0\u1069 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090  \u1085 \u1077  \u1085 \u1072 \u1081 \u1076 \u1077 \u1085 ";\
+	else\
+		cout << "\uc0\u1042 \u1072 \u1096  \u1101 \u1083 \u1077 \u1084 \u1077 \u1085 \u1090 ->" << Tree1->value;\
+	cout << endl;\
+	DestroyBTree(Tree);\
+\}\
+\
+int main() \{\
+	SetConsoleCP(1251);\
+	SetConsoleOutputCP(1251);\
+	MenuProc();\
+	system("pause");\
+	return 0;\
+\}}

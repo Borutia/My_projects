@@ -1,0 +1,155 @@
+#pragma once
+#include "iostream"
+using namespace std;
+
+class line
+{
+	double k, b, x, y;
+	double eps = 0.001;
+public:
+	line() {};
+	line(double K, double B)
+	{
+		k = K;
+		b = B;
+	}
+	~line() {}
+	void IsOnline();
+	friend ostream& operator << (ostream& out, line& lin);
+	friend istream& operator >> (istream& in, line&lin);
+	bool operator==(line & other);
+	bool operator!=(line & other);
+	bool operator=(line & other);
+};
+#pragma once
+#include "iostream"
+using namespace std;
+
+class fraction
+{
+	int a, b;
+public:
+	fraction() {};
+	fraction(int A, int B)
+	{
+		a = A;
+		b = B;
+	}
+	~fraction() {};
+	bool operator==(fraction & other);
+	bool operator!=(fraction & other);
+	fraction operator+(fraction & other);
+	fraction operator-(fraction & other);
+	bool operator!();
+	friend ostream& operator << (ostream& out, fraction& lin);
+	friend istream& operator >> (istream& in, fraction&lin);
+};
+
+fraction fraction::operator-(fraction & other)
+{
+	fraction result;
+	if (this->b == other.a)
+	{
+		result.b = this->b;
+		result.a = this->a - other.a;
+	}
+	else
+	{
+		result.b = this->b*other.b;
+		result.a = (this->a*other.b) - (other.a*this->b);
+	}
+	return result;
+}
+fraction fraction::operator+(fraction & other)
+{
+	fraction result;
+	if (other.b == this->b)
+	{
+		result.b = b;
+		result.a = this->a + other.a;
+	}
+	else
+	{
+		result.b = this->b*other.b;
+		result.a = (this->a*other.b) + (other.a*this->b);
+	}
+	return result;
+}
+bool fraction::operator!()
+{
+	while (b % 2 == 0)
+		b /= 2;
+
+	while (b % 5 == 0)
+		b /= 5;
+
+	return b != 1;
+}
+bool fraction::operator==(fraction & other)
+{
+	return this->a == other.a && this->b == other.b;
+}
+bool fraction::operator!=(fraction & other)
+{
+	return this->a != other.a || this->b != other.b;
+}
+istream& operator >> (istream& in, fraction&lin)
+{
+	cout << "a = ";
+	in >> lin.a;
+	cout << "b = ";
+	cin >> lin.b;
+	return in;
+}
+ostream& operator << (ostream& out, fraction& lin)
+{
+	out << lin.a << "/" << lin.b;
+	return out;
+}
+class point
+{
+public:
+	void intersect(double a1, double a2, double b1, double b2, double c1, double c2, double& x, double& y);
+};
+void point::intersect(double a1, double a2, double b1, double b2, double c1, double c2, double& x, double& y)
+{
+	double det = a1 * b2 - a2 * b1;
+	x = (b1 * c2 - b2 * c1) / det;
+	y = (a2 * c1 - a1 * c2) / det;
+}
+
+ostream& operator << (ostream& out, line& lin)
+{
+	out << lin;
+	return out;
+}
+
+bool line::operator=(line & other)
+{
+	return this->x == other.x*-1 && this->y == other.y*-1;
+}
+
+bool line::operator==(line & other)
+{
+	return this->x == other.x && this->y == other.y;
+}
+bool line::operator!=(line & other)
+{
+	return this->x != other.x && this->y != other.y;
+}
+istream& operator >> (istream& in, line&lin)
+{
+	cout << "x = ";
+	in >> lin.x;
+	cout << "y = ";
+	cin >> lin.y;
+	return in;
+}
+void line::IsOnline()
+{
+	if (fabs(k*x + b - y) < eps)
+		cout << "точка лежит на прямой" << endl;
+	else
+		cout << "точка не лежит на прямой" << endl;
+}
+

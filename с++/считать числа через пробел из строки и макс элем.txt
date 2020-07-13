@@ -1,0 +1,24 @@
+#include "stdafx.h"
+#include <vector>
+#include <sstream>
+#include <iostream>
+#include <iterator>
+#include <algorithm>
+using namespace std;
+int main()
+{
+	stringstream ss;
+	string str;
+	getline(cin,str);
+	ss << str;
+
+	vector<int> out_data;
+
+	for (int i = 0; ss >> i; )
+		out_data.push_back(i);
+
+	cout << endl << "max = " << *std::max_element(out_data.begin(), out_data.end()) << endl;
+	out_data.clear();
+	system("pause");
+	return 0;
+}

@@ -1,0 +1,74 @@
+#include "stdafx.h"
+#include<iostream>
+using namespace std;
+int n ;
+int matrix[10][10];
+bool visited[10];
+int min_node() {
+	int result;
+	int min_value = INT_MAX;
+
+	for (int i = 0; i<n; i++) {
+		if (visited[i]) {
+			for (int j = 0; j<n; j++) {
+				if (matrix[i][j] < min_value && !visited[j])
+				{
+					min_value = matrix[i][j];
+					result = i * 10 + j;
+				}
+			}
+		}
+	}
+	return result;
+}
+
+int main() {
+	setlocale(LC_ALL, "");
+	cout << "n = ";
+	cin >>n;
+	/*int matrix[n][n] = {
+		{ 0,1,0,8,2,6 },
+		{ 1,0,3,0,0,8 },
+		{ 0,3,0,3,2,0 },
+		{ 8,0,3,0,8,5 },
+		{ 2,0,2,8,0,2 },
+		{ 6,8,0,5,2,0 }
+	};*/
+
+
+	for (int i = 0; i<n; i++) {
+		for (int j = 0; j<n; j++)
+			cin>> matrix[i][j] ;
+	}
+
+
+	for (int i = 0; i<n; i++) {
+		for (int j = 0; j<n; j++) {
+			if (matrix[i][j] == 0)
+				matrix[i][j] = INT_MAX;
+		}
+	}
+
+	
+	for (int i = 0; i<n; i++)
+		visited[i] = false;
+
+	int source = 0;
+
+	visited[source] = true;
+
+	int sum = 0;
+	int t = n - 1;
+	while (t>0) {
+		int result = min_node();
+		int i = result / 10;
+		int j = result % 10;
+		visited[j] = true;
+		cout << i + 1 << " --> " << j + 1 << endl;
+		sum += matrix[i][j];
+		t--;
+	}
+	cout << endl << "Минимальная стоимость = " << sum << endl;
+	system("pause");
+	return 0;
+}

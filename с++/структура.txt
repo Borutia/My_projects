@@ -1,0 +1,45 @@
+#include "stdafx.h"
+#include<iostream>
+
+using namespace std;
+
+struct book
+{
+	char name[100];
+	int year;
+	int str;
+	int sum;
+};
+
+void print(book *x)
+{
+	for (int i = 0; i<5; i++)
+	{
+		for (int j = i; j<5; j++)
+		{
+			if (strcmp(x[i].name, x[j].name) == 1) // еще неотсортировано
+			{
+				char t[100]; // переставляем
+				strcpy(t, x[i].name);
+				strcpy(x[i].name, x[j].name);
+				strcpy(x[j].name, t);
+			}
+		}
+	}
+	for (int i = 0; i < 5; i++ )
+		cout << x[i].name << " " << x[i].year << " " << x[i].str << " " << x[i].sum << endl;
+}
+
+int main()
+{
+	setlocale(LC_ALL, "");
+	book x[5] = {
+		{ "abc",2010,178,500 },
+		{ "2abc",2012,278,600 },
+		{ "3abc",2013,378,700 },
+		{ "4abc",2014,478,800 },
+		{ "5abc",2015,578,900 } };
+	print(x);
+	system("pause");
+	return 0;
+}

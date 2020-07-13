@@ -1,0 +1,89 @@
+#include "stdafx.h"
+#include "iostream"
+#include "TX\TXLib.h"
+using namespace std;
+
+void car()
+{
+	txSetColor(TX_RED, 3);
+	txLine(150, 470, 400, 470);
+
+	txLine(150, 470, 150, 350);
+	txLine(150, 350, 280, 350);
+	txLine(280, 350, 280, 470);
+
+	txLine(150, 365, 180, 365);
+	txLine(150, 395, 180, 395);
+	txLine(180, 365, 180, 395);
+
+
+	txLine(630, 470, 330, 465);
+	txLine(630, 470, 630, 350);
+	txLine(630, 350, 330, 350);
+	txLine(330, 350, 330, 465);
+}
+
+void wh()
+{
+	txCircle(210, 490, 20);
+	txCircle(350, 490, 20);
+	txCircle(610, 490, 20);
+	for (int i = 0; i<100; i++)
+	{
+		//колесо 1
+		txSetColor(TX_RED, 3);
+		txLine(210, 505, 210, 475);
+		txLine(195, 490, 225, 490);
+
+		txLine(350, 505, 350, 475);
+		txLine(335, 490, 365, 490);
+
+		txLine(610, 505, 610, 475);
+		txLine(595, 490, 625, 490);
+
+		txSleep(100);
+		txSetColor(TX_WHITE, 3);
+		txLine(210, 505, 210, 475);
+		txLine(195, 490, 225, 490);
+
+		txLine(350, 505, 350, 475);
+		txLine(335, 490, 365, 490);
+
+		txLine(610, 505, 610, 475);
+		txLine(595, 490, 625, 490);
+
+		txSetColor(TX_RED, 3);
+		txLine(200, 500, 220, 480);
+		txLine(220, 500, 200, 480);
+
+		txLine(340, 500, 360, 480);
+		txLine(360, 500, 340, 480);
+
+		txLine(600, 500, 620, 480);
+		txLine(620, 500, 600, 480);
+
+		txSleep(100);
+		txSetColor(TX_WHITE, 3);
+		txLine(200, 500, 220, 480);
+		txLine(220, 500, 200, 480);
+
+		txLine(340, 500, 360, 480);
+		txLine(360, 500, 340, 480);
+
+		txLine(600, 500, 620, 480);
+		txLine(620, 500, 600, 480);
+		txSleep(100);
+
+	}
+}
+
+int main()
+{
+	txCreateWindow(800, 600);
+	txSetColor(TX_RED, 3);
+	txLine(0, 520, 800, 520);
+	car();
+	wh();
+	system("pause");
+    return 0;
+}

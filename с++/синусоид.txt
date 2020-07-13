@@ -1,0 +1,35 @@
+#include <iostream>
+#include <windows.h>
+
+int main()
+{
+	//задаем цвет 
+	COLORREF color = RGB(255, 255, 255);
+
+	//создаем окно
+	HDC window = GetDC(GetConsoleWindow());
+
+	//переменные для координат
+	int x, y;
+
+	//рисуем график
+	for (x = 0; x < 650; x++)
+	{
+		y = (int)(sin(x / 20.0) * 60 + 50);
+		SetPixel(window, x, y+100, color);
+	}
+
+	//рисуем координаты ox и oy
+	for (x = 0; x < 650; x++)
+	{
+		SetPixel(window, x, 150, color);
+		SetPixel(window, 315, x, color);
+	}
+
+	//удаляем экран
+	DeleteDC(window);
+	
+	//задержка экрана
+	system("pause");
+	return 0;
+}

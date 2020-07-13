@@ -1,0 +1,107 @@
+{\rtf1\ansi\ansicpg1251\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 \
+#include "stdafx.h"\
+#include <conio.h>\
+#include <iostream>\
+using namespace std;\
+class Matrix\
+\{\
+private:\
+	int aMas[3][3];\
+\
+public:\
+	Matrix() \{\}\
+	void Vvod();\
+	void Vivod();\
+	Matrix operator+ (const Matrix&);\
+	Matrix operator- (const Matrix&);\
+	Matrix operator* (const Matrix&);\
+\};\
+\
+void Matrix::Vvod()\
+\{\
+	for (int i = 0; i<3; i++)\
+		for (int j = 0; j<3; j++)\
+		\{\
+			cout << "Vvedite [" << i << "]" << "[" << j << "]" << " element massiva: ";\
+			cin >> aMas[i][j];\
+		\}\
+\}\
+\
+void Matrix::Vivod()\
+\{\
+	for (int i = 0; i < 3; i++)\
+	\{\
+		for (int j = 0; j < 3; j++)\
+		\{\
+			cout << aMas[i][j] << " ";\
+		\}\
+		cout << endl;\
+	\}\
+\}\
+\
+Matrix Matrix::operator+(const Matrix &rhs)\
+\{\
+	Matrix result(*this);\
+	for (size_t i = 0; i < 3; ++i)\
+	\{\
+		for (size_t j = 0; j < 3; ++j)\
+		\{\
+			result.aMas[i][j] += rhs.aMas[i][j];\
+		\}\
+	\}\
+	return result;\
+\}\
+\
+Matrix Matrix::operator-(const Matrix &rhs)\
+\{\
+	Matrix result(*this);\
+\
+	for (size_t i = 0; i < 3; ++i)\
+	\{\
+		for (size_t j = 0; j < 3; ++j)\
+			result.aMas[i][j] -= rhs.aMas[i][j];\
+	\}\
+\
+	return result;\
+\}\
+\
+Matrix Matrix::operator*(const Matrix &rhs)\
+\{\
+	Matrix result(*this);\
+\
+	for (size_t i = 0; i < 3; ++i)\
+	\{\
+		for (size_t j = 0; j < 3; ++j)\
+			result.aMas[i][j] *= rhs.aMas[i][j];\
+	\}\
+\
+	return result;\
+\}\
+\
+int main()\
+\{\
+		Matrix m, m2,m3,m4;\
+		m.Vvod();\
+		cout << "Vivod: \\n";\
+		m.Vivod();\
+		cout << "Vvod: \\n";\
+		m2.Vvod();\
+		cout << "Vivod: \\n";\
+		m2.Vivod();\
+		m4 = m * m2;\
+		m3 = m + m2;\
+		m2 = m - m2;\
+		cout << endl << "+ \\n";\
+		m3.Vivod();\
+		cout << endl<< "- \\n";\
+		m2.Vivod();\
+		cout << endl << "* \\n";\
+		m4.Vivod();\
+		system("PAUSE > NULL");\
+\}}

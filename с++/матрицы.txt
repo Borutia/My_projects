@@ -1,0 +1,184 @@
+#include "stdafx.h"
+#include <iostream>
+#include <time.h>
+#include <fstream>
+#include <iomanip>
+using namespace std;
+
+int Size(int &size)
+{
+	while (size <= 0)
+	{
+		cout << "Введите размер квадратной матрицы: ";
+		cin >> size;
+		if (size <= 0)
+			cout << "Ошибка, размер должен быть больше 0.\n";
+	}
+	return size;
+}
+
+void Input(int **Array, int size, int a, int b) // Заполнение рандомными числами
+{
+	srand(time(0));
+	for (int i = 0; i < size; i++)
+		for (int j = 0; j < size; j++)
+			Array[i][j] = rand() % (b - a + 1) + a;
+}
+
+void Input(int **Array, int size) // Заполнение c клавиатуры 
+{
+	for (int i = 0; i < size; i++)
+		for (int j = 0; j < size; j++)
+		{
+			cout << "Массив [" << i << "]" << "[" << j << "] -> ";
+			cin >> Array[i][j];
+		}
+}
+
+bool Input(int **Array, int size, char name[]) // Заполнение из файла
+{
+	ifstream vr(name);
+	if (!vr)
+	{
+		cout << "error in Output file\n";
+		system("pause");
+		return 0;
+	}
+	int i = 0;
+	int j = 0;
+	for (int i = 0; i < size; i++)
+		for (int j = 0; j < size; j++)
+			vr >> Array[i][j];
+	return 1;
+}
+
+void Display(int **Array, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+			cout << setw(4) << Array[i][j] << " ";
+		cout << endl;
+	}
+}
+
+void funk1(int **Array, int size)
+{
+	int min = -100, min_i = 0;
+	for (int i = 0; i < size; i++)
+	{
+		int otr = 0;
+		for (int j = 0; j < size; j++)
+		{
+			if (Array[i][j] < 0)
+			{
+				otr++;
+			}
+		}
+		if (min < otr)
+		{
+			min = otr;
+			min_i = i;
+		}
+	}
+	cout << "Больше отрицательный элементов в строке: " << min_i << endl;
+}
+
+void funk2(int **Array, int size)
+{
+	int k = 0, q = 0;
+	cout << "k = ";
+	cin >> k;
+	cout << "q = ";
+	cin >> q;
+	for (int i = 0; i < size; i++)
+	{
+		if (i == k)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				if ((i==k) &&(q==j))
+				{
+					cout << setw(4) << Array[i][j] << " ";
+					continue;
+				}
+				cout << setw(4) << Array[i][j] * -1 << " ";
+			}
+			cout << endl;
+			continue;
+		}
+		for (int j = 0; j < size; j++)
+		{
+			if (j == q)
+			{
+				cout << setw(4) << Array[i][j] * -1 << " ";
+				continue;
+			}
+			cout << setw(4) << Array[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+
+int main()
+{
+	setlocale(0, "");
+	system("color 03");
+	char file[] = "file.txt";
+	int size = 0;
+	Size(size);
+	int **Array = new int*[size];
+	for (int i = 0; i < size; i++)
+	{
+		Array[i] = new int[size];
+	}
+	int num;
+	cout << "Способы заполнения массива:\n"
+		<< " 1 - Заполнение массива случайными числами.\n"
+		<< " 2 - Заполенине массива с клавиатуры.\n"
+		<< " 3 - Заполнение массива из файла.\n";
+	cout << "Введите способ заполнения: ";
+	cin >> num;
+	do {
+		if (num != 1 && num != 2 && num != 3)
+		{
+			cout << "Ошибка, введите номер способа: ";
+			cin >> num;
+		}
+		switch (num)
+		{
+		case 1:
+			cout << "Введите границы для случайных чисел (a, b)\n";
+			cout << " Введите a: ";
+			int a;
+			cin >> a;
+			cout << " Введите b (b > a): ";
+			int b;
+			cin >> b;
+			while (a >= b)
+			{
+				cout << "Ошибка, граница b должна быть больше a.\n"
+					<< " Введите a: ";
+				cin >> a;
+				cout << " Введите b (b > a): ";
+				cin >> b;
+			}
+			Input(Array, size, a, b);
+			break;
+		case 2:
+			/*cout << "Заполнение массива числами с клавиатуры:\n";*/
+			Input(Array, size);
+			break;
+		case 3:
+			Input(Array, size, file);
+			break;
+		}
+	} while (num != 1 && num != 2 && num != 3);
+	cout << "Массив: \n";
+	Display(Array, size);
+	funk1(Array, size);
+	funk2(Array, size);
+	system("pause");
+	return 0;
+}

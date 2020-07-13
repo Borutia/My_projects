@@ -1,0 +1,38 @@
+#include "stdafx.h"
+#include "iostream"
+using namespace std;
+
+int main()
+{
+	setlocale(LC_ALL, "rus");
+	int month;
+	cout << "ƒней в мес€це: ";
+	cin >> month;
+	int number_day;
+	cout << "номер дн€ недели:";
+	cin >> number_day;
+	cout << endl;
+	cout << " пн " << " вт " << " ср " << " чт " << " пт " << " сб " << " вс" << endl << endl;
+	for (int i = 1, j = 1; i <= month; i++)
+	{
+		if (i == 1 && j < number_day)
+		{
+			cout << "    ";
+			i--;
+		}
+		else {
+			cout << " ";
+			if (i <10)cout << " ";
+			cout << i << " ";
+		}
+
+		if (++j >7)
+		{
+			j = 1;
+			cout << "\n\n";
+		}
+	}
+	cout << endl << endl;
+	system("pause");
+	return 0;
+}

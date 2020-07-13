@@ -1,0 +1,62 @@
+{\rtf1\ansi\ansicpg1251\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 #include "stdafx.h"\
+#include <stdio.h>\
+#include <stdlib.h>\
+#include <time.h>\
+#include "iostream"\
+#define N 256\
+int a[N];\
+using namespace std;\
+\
+void qsort(int l, int r)\
+\{\
+	int w, x, i, j;\
+	i = l;\
+	j = r;\
+	x = a[(l + r) / 2];\
+	while (i <= j)\
+	\{\
+		while (a[i]<x) i++;\
+		while (x<a[j]) j--;\
+		if (i <= j)\
+		\{\
+			w = a[i]; a[i] = a[j]; a[j] = w;\
+			i++; j--;\
+		\}\
+	\}\
+	if (l<j) qsort(l, j);\
+	if (i<r) qsort(i, r);\
+\
+\}\
+void main()\
+\{\
+	\
+	unsigned int start_time = clock();\
+	long i;\
+	int n = 10;\
+	srand((unsigned)time(NULL));\
+\
+\
+	for (i = 0; i<n; i++)\
+	\{\
+		a[i] = 1 + rand() % n;\
+		printf("%d ", a[i]);\
+	\}\
+	printf("\\n");\
+	qsort(0, n - 1);\
+\
+	for (i = 0; i<n; i++)\
+	\{\
+		printf("%d ", a[i]);\
+	\}\
+	printf("\\n");\
+	unsigned int end_time = clock(); // \uc0\u1082 \u1086 \u1085 \u1077 \u1095 \u1085 \u1086 \u1077  \u1074 \u1088 \u1077 \u1084 \u1103 \
+	unsigned int search_time = end_time - start_time;\
+\
+	system("pause");\
+\}}

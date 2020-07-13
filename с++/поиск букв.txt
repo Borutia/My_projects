@@ -1,0 +1,76 @@
+//вывести все глухие согласные буквы которые есть в каждом нечетном слове и которых нет в четных 
+
+#include "stdafx.h"
+#include <iostream>
+#include <string>
+#include <set>
+#include <vector>
+#include <sstream>
+#include <iterator>
+#include <algorithm>
+#include <Windows.h>
+#include <locale>
+#include "iostream"
+int main()
+{
+	setlocale(LC_ALL, "rus");
+	const std::string voiced = "кпстфхцчшщ";
+	std::string buf;
+	std::string word;
+	std::istringstream isstr;
+	std::vector<std::string> even_words;
+	std::vector<std::string> not_even_words;
+	std::set<char> voiced_consonants;
+	size_t i = 0;
+
+	std::cout << "Enter a string: ";
+	std::getline(std::cin, buf);
+	char * s = new char[buf.length() + 1];
+	strcpy_s(s, buf.length() + 1, buf.c_str());
+	OemToCharA(s, s);
+	buf = s;
+	delete[] s;
+	isstr.str(buf);
+
+	while (isstr >> word) {
+		if (++i & 1)
+			not_even_words.push_back(word);
+		else
+			even_words.push_back(word);
+	}
+
+	std::for_each(not_even_words.begin(), not_even_words.end(), [&](std::string str) -> void
+	{
+		std::for_each(str.begin(), str.end(), [&](char c) -> void
+		{
+			if (voiced.find(c) != std::string::npos && isalpha((unsigned char)c)) {
+				bool ins = true;
+				std::for_each(not_even_words.begin(), not_even_words.end(), [c, &ins](std::string s) -> void
+				{
+					if (s.find(c) == std::string::npos)
+						ins = false;
+				});
+				if (ins)
+					voiced_consonants.insert(c);
+			}
+		});
+	});
+
+	std::for_each(even_words.begin(), even_words.end(), [&](std::string str) -> void
+	{
+		std::for_each(str.begin(), str.end(), [&](char c) -> void
+		{
+			if (std::binary_search(voiced_consonants.begin(), voiced_consonants.end(), c))
+				voiced_consonants.erase(c);
+		});
+	});
+
+	std::copy(
+		voiced_consonants.begin(),
+		voiced_consonants.end(),
+		std::ostream_iterator<char>(std::cout, " "));
+	std::cout << std::endl;
+
+	system("pause");
+	return 0;
+}

@@ -1,0 +1,201 @@
+{\rtf1\ansi\ansicpg1251\cocoartf1561\cocoasubrtf200
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 #include "stdafx.h"\
+#include <iostream>\
+#include <fstream>\
+#include <cmath>\
+#include <cstring>\
+using namespace std;\
+const double eps = 0.001;\
+int n;\
+double **A;\
+\
+int G(double** AA)\
+\{\
+	double a, b, *X;\
+	X = new double[n];\
+	for (int i = n - 1; i>0; i--)\
+		for (int j = 0; j<i; j++)\
+		\{\
+			a = AA[j][i]; \
+			b = AA[j + 1][i];\
+			for (int k = 0; k <= n; k++)\
+				AA[j][k] = -AA[j][k] * b + AA[j + 1][k] * a;\
+		\}\
+	for (int i = 0; i<n; i++)\
+	\{\
+		X[i] = AA[i][n];\
+		for (int j = 0; j<i; j++)\
+			X[i] = X[i] - AA[i][j] * X[j];\
+		if (AA[i][i] == 0) \
+		\{ \
+			cout << "\uc0\u1052 \u1077 \u1090 \u1086 \u1076  \u1043 \u1072 \u1091 \u1089 \u1089 \u1072 : \u1084 \u1072 \u1090 \u1088 \u1080 \u1094 \u1072  \u1074 \u1099 \u1088 \u1086 \u1078 \u1076 \u1077 \u1085 \u1072 \\n"; \
+			return 0; \
+		\}\
+		X[i] = X[i] / AA[i][i];\
+\
+	\}\
+	cout << "\\n\uc0\u1052 \u1077 \u1090 \u1086 \u1076  \u1043 \u1072 \u1091 \u1089 \u1089 \u1072 : x=(";\
+	for (int i = 0; i<n; i++)\
+	\{\
+		cout << X[i];\
+		if (i<n - 1) cout << ";";\
+	\}\
+	cout << ")\\n";\
+	return 1;\
+\}\
+\
+void iter(double** AA)\
+\{\
+	double *X, *X0, Norma, max, a;\
+	X = new double[n];\
+	X0 = new double[n];\
+	for (int i = 0; i<n; i++)\
+	\{\
+		a = AA[i][i]; \
+		AA[i][i] = 0;\
+		for (int j = 0; j <= n; j++)	\
+			AA[i][j] = AA[i][j] / a;\
+	\}\
+	for (int i = 0; i<n; i++) \
+		X0[i] = AA[i][n];\
+	do\
+	\{\
+		for (int i = 0; i<n; i++)\
+		\{\
+			X[i] = AA[i][n];\
+			for (int j = 0; j<n; j++)\
+				X[i] = X[i] - AA[i][j] * X0[j];\
+		\}\
+		max = 0;\
+		for (int i = 0; i<n; i++)\
+		\{\
+			Norma = abs(X0[i] - X[i]); if (Norma>max) max = Norma;\
+			X0[i] = X[i];\
+		\}\
+		Norma = max;\
+\
+	\} while (Norma>eps);\
+	cout << "\\n\uc0\u1052 \u1077 \u1090 \u1086 \u1076  \u1087 \u1088 \u1086 \u1089 \u1090 \u1099 \u1093  \u1080 \u1090 \u1077 \u1088 \u1072 \u1094 \u1080 \u1081 : x=(";\
+	for (int i = 0; i<n; i++)\
+	\{\
+		cout << X[i];\
+		if (i<n - 1) cout << ";";\
+	\}\
+	cout << ")\\n";\
+\}\
+\
+void z(double** AA)\
+\{\
+	double *X, *X0, Norma, max, a;\
+	X = new double[n];\
+	X0 = new double[n];\
+	for (int i = 0; i<n; i++)\
+	\{\
+		a = AA[i][i]; AA[i][i] = 0;\
+		for (int j = 0; j <= n; j++)	\
+			AA[i][j] = AA[i][j] / a;\
+	\}\
+	for (int i = 0; i<n; i++) \
+		X0[i] = X[i] = AA[i][n];\
+	do\
+	\{\
+		for (int i = 0; i<n; i++)\
+		\{\
+			X[i] = AA[i][n];\
+			for (int j = 0; j<n; j++)\
+				X[i] = X[i] - AA[i][j] * X[j];\
+		\}\
+		max = 0;\
+		for (int i = 0; i<n; i++)\
+		\{\
+			Norma = abs(X0[i] - X[i]);\
+			if (Norma>max) \
+				max = Norma;\
+			X0[i] = X[i];\
+		\}\
+		Norma = max;\
+\
+	\} while (Norma>eps);\
+	cout << "\\n\uc0\u1052 \u1077 \u1090 \u1086 \u1076  \u1047 \u1077 \u1081 \u1076 \u1077 \u1083 \u1103 : x=(";\
+	for (int i = 0; i<n; i++)\
+	\{\
+		cout << X[i];\
+		if (i<n - 1) \
+			cout << ";";\
+	\}\
+	cout << ")\\n";\
+\}\
+\
+void copy(double** a, double** b, int k)\
+\{\
+	for (int i = 0; i<k; i++)\
+		for (int j = 0; j<k + 1; j++)\
+			a[i][j] = b[i][j];\
+\}\
+\
+bool diag(double** AA)\
+\{\
+	double S; \
+	bool F = true;\
+	for (int i = 0; i<n; i++)\
+	\{\
+		S = 0;\
+		for (int j = 0; j<n; j++) \
+			if (i != j) \
+				S = S + abs(AA[i][j]);\
+		F = F && (abs(AA[i][i]) >= S);\
+	\}\
+	return F;\
+\}\
+\
+int main()\
+\{\
+	double **B;\
+	setlocale(LC_ALL, "");\
+	ifstream f("matrix.dat");\
+	if (!f)\
+	\{\
+		cout << "\uc0\u1053 \u1077 \u1090  \u1092 \u1072 \u1081 \u1083 \u1072  \u1074 \u1093 \u1086 \u1076 \u1085 \u1099 \u1093  \u1076 \u1072 \u1085 \u1085 \u1099 \u1093  matrix.dat\\n";\
+		return 0;\
+	\}\
+	f >> n;\
+	A = new double*[n];\
+	for (int i = 0; i<n; i++)\
+		A[i] = new double[n + 1];\
+	cout << "\uc0\u1052 \u1072 \u1090 \u1088 \u1080 \u1094 \u1072  \u1057 \u1051 \u1040 \u1059 :\\n";\
+	for (int i = 0; i<n; i++)\
+	\{\
+		for (int j = 0; j <= n; j++)\
+		\{\
+			f >> A[i][j];\
+			cout << A[i][j] << "\\t";\
+		\}\
+		cout << "\\n";\
+	\}\
+	B = new double*[n];	\
+	for (int i = 0; i<n; i++)\
+		B[i] = new double[n + 1];\
+	copy(B, A, n);\
+	int g = G(B);\
+	if (g == 0) \
+		return 0;\
+	if (!diag(A)) \
+	\{ \
+		cout << "\uc0\u1053 \u1077 \u1090  \u1076 \u1080 \u1072 \u1075 \u1086 \u1085 \u1072 \u1083 \u1100 \u1085 \u1086 \u1075 \u1086  \u1087 \u1088 \u1077 \u1086 \u1073 \u1083 \u1072 \u1076 \u1072 \u1085 \u1080 \u1103 "; \
+		return 0; \
+	\}\
+	copy(B, A, n);\
+	iter(B);\
+	copy(B, A, n);\
+	z(B);\
+\
+	system("pause");\
+	return 0;\
+\}\
+}
