@@ -1,0 +1,51 @@
+uses graphabC;
+var x,y,ky: integer;
+ 
+procedure Oblako(x,y: integer);
+begin
+setpencolor(clwhite);
+setbrushcolor(clwhite);
+rectangle(x,y-20,x+100,y);
+circle(x,y-10,10);
+circle(x+100,y-10,10);
+circle(x+20,y-20,20);
+circle(x+80,y-20,20);
+circle(x+50,y-30,20);
+end;
+ 
+procedure Ptiza (xx,yy: integer);
+begin
+setbrushcolor(clsilver);
+rectangle(xx+35,115,xx+60,125);
+rectangle(xx-80,115,xx-30,125);
+rectangle(xx-70,105,xx-20,115);
+rectangle(xx-70,125,xx-20,135);
+ellipse(xx-40,100,xx+40,140);
+line(xx+80,115,xx+100,120);
+line(xx+80,125,xx+100,120);
+circle(xx+70,120,15);
+floodfill(xx+90,120,clred);
+setbrushcolor(clgray);
+rectangle(xx-20,120,xx+20,120+yy);
+setbrushcolor(clblack);
+circle(xx+75,120,5);
+end;
+ 
+begin
+setwindowsize(800,200);
+lockdrawing;
+y:=0;
+ky:=-1;
+repeat
+for x:=110 to 900 do
+    begin
+    clearwindow(clskyblue);
+    Oblako(200,50);
+    Oblako(450,80);
+    Ptiza (x,y);
+    y:=y+ky;
+    if (y>50) or (y<-50) then ky:=ky*(-1);
+    redraw;
+    end;
+until false;
+end.

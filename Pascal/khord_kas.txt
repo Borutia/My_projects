@@ -1,0 +1,81 @@
+var  x,a,b,e,c,sum,sum1: double;
+num:integer;
+n,number,i:integer;
+arr:array[1..100] of real;
+
+function f1(x: double): double; {Основная функция}
+var i,k:integer;
+begin
+k:=0;
+sum:=0;
+for i:=1 to number do begin
+sum+=arr[i]*power(x,number-k);
+inc(k);
+end;
+f1:=sum+arr[number+1];;
+end;
+
+function f2(x:double): double; {Производная от основной функции}
+var i,l:integer;
+kl:real;
+begin
+sum1:=0;
+l:=0;
+for i:=1 to number do begin
+kl:=power(x,number-i);
+if((number-i)=0) then kl:=1;
+sum1+=(number-l)*arr[i]*kl;
+inc(l);
+end;
+f2:=sum1+arr[number+1];
+end;
+
+procedure func1();
+begin
+n:=0;
+writeln('Введите значения a и b');
+readln(a,b);
+writeLn('Введите точность eps');
+readln(e);
+if f1(a)*f2(a)>0 then x:=a
+else x:=b;
+while abs(f1(x))>e do
+   begin
+     x:=x-f1(x)/f2(x);
+     inc(n);
+   end;
+ writeLn('Корень x = ', x:10:7);
+ writeLn('Количество итераций =  ',n);
+end;
+
+procedure func2();
+begin
+ writeln('Введите значения a и b');
+ readln(a,b);
+ writeLn('Введите точность eps');
+ readln(e);
+ n := 0;
+ while (abs((f1(b)*a-f1(a)*b)/(f1(b)-f1(a))-c)>e) do begin
+   c:=(f1(b)*a-f1(a)*b)/(f1(b)-f1(a));
+   if f1(a)*f1(c) > 0 then a := c
+   else b := c;
+   Inc(n)
+ end;
+ x := c;
+ writeLn('Корень x = ', x:10:7);
+ writeLn('Количество итераций =  ',n);
+end;
+
+begin
+write('n = ');
+read(number);
+writeln('введите значения ');
+for i:=1 to number+1 do
+read(arr[i]);
+writeln('Выберите метод: 1-метод хорд, 2-метод касательных');
+read(num);
+case num of
+1:func2();
+2:func1();
+end;
+end.

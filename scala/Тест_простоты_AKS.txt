@@ -1,0 +1,17 @@
+object AKS { 
+  def power(n: BigInt) = if (n % 2 == 0) BigInt(1) else BigInt(-1) 
+  val test = (( Vector(Vector(BigInt(1))) /: (1 to 100)) { (rows, i) => 
+    val v = rows.head 
+    val newVector = ((1 until v.length) map (j => power(j+i) * (v(j-1).abs + v(j).abs))).toVector 
+    (power(i) +: newVector :+ power(i+v.length)) +: rows}).reverse 
+  
+  def isPrime(n: Int) = { 
+    val poly = test(n) 
+    poly.slice(1, poly.length - 1).forall(i => i % n == 0) 
+  } 
+  def main(args: Array[String]): Unit = 
+  { 
+    val primes = (2 to 100).filter(isPrime) 
+    println(primes mkString " ") 
+  }
+}

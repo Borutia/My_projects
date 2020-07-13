@@ -1,0 +1,23 @@
+
+def isCorrect(string:String): Boolean = 
+{
+  var test = 0
+  
+  for(index <- 0 to (string.length - 1)) 
+  {
+    string(index) match 
+    {
+      case '(' => test = test + 1
+      case ')' => test = test - 1
+      case _ => test = test
+    }
+    if(test < 0)
+      return false
+  }
+  return (test == 0)
+}
+
+println(isCorrect("(if (zero? x) max (/ 1 x))"))
+println(isCorrect("I told him (that it’s not (yet) done). (But he wasn’t listening)"))
+println(isCorrect(":-)"))
+println(isCorrect("())("))

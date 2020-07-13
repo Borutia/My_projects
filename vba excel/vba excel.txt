@@ -1,0 +1,45 @@
+
+Sub Main()
+    Dim n, i, j, c, k, d As Integer
+    Dim a(3, 4), a1(3, 4), b(3), y(3), x(3) As Integer
+    n = 3
+    For i = 1 To n Step 1
+        For j = 1 To n + 1 Step 1
+            a(i, j) = Cells(i, j).Value
+            a1(i, j) = a(i, j)
+        Next j
+    Next i
+    For k = 1 To n Step 1
+        b(k) = a(k, k)
+        For i = 1 To n + 1 Step 1
+            a(k, i) = a(k, i) / b(k)
+            Cells(k + 5, i).Value = a(k, i)
+        Next i
+        For i = k + 1 To n Step 1
+            c = a(i, k)
+            For j = 1 To n + 1 Step 1
+                a(i, j) = a(i, j) - a(k, j) * c
+                Cells(i + 10, j).Value = a(i, j)
+            Next j
+        Next i
+    Next k
+     x(n) = a(n, n + 1)
+    For i = n - 1 To 1 Step -1
+        x(i) = a(i, n + 1)
+        For d = n To i + 1 Step -1
+            x(i) = x(i) - a(i, d) * x(d)
+        Next d
+    Next i
+     For i = 1 To n Step 1
+        Cells(1, i + 5).Value = x(i)
+    Next i
+     For i = 1 To n Step 1
+        y(i) = 0
+        For j = 1 To n Step 1
+            y(i) = y(i) + a1(i, j) * x(j)
+        Next j
+        Cells(5, i + 5).Value = y(i)
+    Next i
+End Sub
+
+

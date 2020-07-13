@@ -1,0 +1,62 @@
+uses
+  GraphABC;
+ 
+var
+  x, y, y0, a, b,dx: integer;
+ 
+procedure more(a, b: integer);
+begin
+  moveto(0, y0);
+  setpencolor(clblue);
+  for a := 0 to 680 do
+  begin
+    b := y0 - round(sin(a * pi / 180) * 30);
+    lineto(a, b);
+  end;
+end;
+
+procedure korabl(x,y:integer);
+begin
+    MoveTo(x - 40, y + 20);
+    LineTo(x - 20, y + 40);
+    LineTo(x + 20, y + 40);
+    LineTo(x + 40, y + 20);
+    LineTo(x - 40, y + 20);
+    MoveTo(x + 15, y + 20);
+    LineTo(x + 15, y - 40);
+    LineTo(x - 20, y + 20);
+    LineTo(x + 15, y + 20);
+
+end;
+ 
+begin
+  clearWindow(clblue);
+  LockDrawing;
+  y0 := 200;
+  x := 0;
+  dx:=2;
+  while x >= 0 do
+  begin
+    more(a, b);
+    floodfill(10,10,clblue);
+    floodfill(100,400,clDarkBlue);
+    setpencolor(clwhite);
+    y := y0 - 40 - round(sin(x * pi / 180) * 30);
+    korabl(x,y);
+    x := x + dx;
+    
+    if (x > WindowWidth) or (x <= 0) then
+     begin
+      dx := -dx;
+     end;
+     
+    Redraw;
+    Sleep(1);
+    
+    ClearWindow(clBlack);
+  end;
+  
+  SetFontSize(14);
+  setpencolor(clred);
+  textOut(200, 240, 'Rejs zavershen!');
+end.

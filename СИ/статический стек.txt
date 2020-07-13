@@ -1,0 +1,94 @@
+#include "stdafx.h"
+#include <iostream>
+#define N 10
+using namespace std;
+struct stack {
+	int top;
+	float elem[N];
+};
+
+int Push(stack *s, float m)//поместить элемент в стек
+{
+	if (s->top != N - 1)
+	{
+		s->elem[++s->top] = m;
+		return 1;
+	}
+	return 0;
+}
+
+int isStackEmpty(stack* s)//проверка на пустоту
+{
+	if (s->top != -1)
+		return 1; else return 0;
+}
+
+
+int Pop(stack* s, float &m)
+{
+	if (!isStackEmpty(s))
+	{
+		m = s->elem[s->top];
+		s->top = s->top - 1;
+		return 1;
+	}
+	else return 0;
+}
+
+void printStack(stack *s)// распечатать содержимое стека
+{
+	printf_s("Содержимое стека:");
+	if (s->top != 0)
+	{
+		stack *q = s;
+		do {
+			printf_s("%f", s->elem[s->top]);
+			s++;
+		}
+
+		while (q->top != 0);
+	}
+	printf_s("\n");
+}
+int main()
+{
+
+	int n = 0; //ноиер команды
+	float m = 0.0;//элемент стека
+	int exitFlag = 0;
+	stack st;
+	st.top = 0;
+	setlocale(LC_CTYPE, "Russian");
+	do {
+		printf_s("<1>-поместить элемент в стек \n");
+		printf_s("<2>-распечатать содержимое стека \n");
+		printf_s("<3>-извлечь элемент из стека \n");
+		printf_s("<4>-выход \n");
+		int repeatFlag = 0;
+
+		do {
+			printf_s("Введите номер команды (от 1 до 4); ");
+			scanf_s("%d", &n);
+			switch (n) {
+			case 1: printf_s("Введите число:");
+				scanf_s("%f", &m);
+				Push(&st, m);
+				break;
+			case 2: if (!isStackEmpty(&st))
+				printStack(&st);
+					else printf_s("Стек пуст \n");
+					break;
+			case 3: if (!Pop(&st, m))
+				printf_s("Из стека извлечен элемент: %f\n", m);
+					else printf_s("Стек пуст \n");
+					break;
+			case 4: exitFlag = 1;
+				break;
+			default: printf_s("ОШИБКА: неверный номер команды \n");
+				repeatFlag = 1;
+			}
+		} while (!repeatFlag && !exitFlag);
+	} while (!exitFlag);
+	system("pause");
+	return 0;
+}

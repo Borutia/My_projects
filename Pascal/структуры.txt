@@ -1,0 +1,59 @@
+uses crt;
+const nmax=4;
+      line='------------------------------------';
+      shap='|   Фамилия   | Зарплата |   Пол   |';
+ 
+type sotrudniki = record
+     fam:  string[10];
+     zrp: real;
+     pol: string[7];
+     end;
+ 
+var  s:array [1..nmax] of sotrudniki;
+     i,imax,p,k:byte;
+     max_men,max_woman:real;
+ 
+begin
+max_men:=10000000;
+max_woman:=1000000;
+writeln('Внесите данные о сотрудниках: ');
+for i:=1 to nmax do
+    with s[i] do
+         begin
+         write('Фамилия ',i,' сотрудника: '); readln(fam);
+         write('Зарплата: '); readln(zrp);
+         repeat
+         write('Пол (1-мужской, 0-женский): '); readln(p);
+         until p in [0..1];
+         if p=0 then
+           pol:='женский' 
+         else 
+           pol:='мужской';
+         end;
+
+   clrscr;
+   writeln('');
+   writeln(line);
+   writeln(shap);
+   writeln(line);
+   with s[i] do
+   for i:=1 to nmax do
+      writeln('|',s[i].fam:12,'|':2,s[i].zrp:9:1,'|':2,s[i].pol:8,'|':2);
+   writeln(line);
+   
+   with s[i] do
+   for i:=1 to nmax do 
+    begin 
+    if(s[i].pol = 'мужской') then
+      if(max_men>s[i].zrp) then
+        max_men:=s[i].zrp;
+    if(s[i].pol = 'женский') then
+    if(max_woman>s[i].zrp) then
+        max_woman:=s[i].zrp;
+    
+    end;
+    
+    writeln('самая низкая зарплата у мужчины = ',max_men);
+    writeln('самая низкая зарплата у женщины = ',max_woman);
+readln;
+end.

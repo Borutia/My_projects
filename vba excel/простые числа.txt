@@ -1,0 +1,4 @@
+Sub func()Dim sum As IntegerDim n As Integersum = 0n = 1Do While (n <> 0)n = InputBox("Введите число")If isSimple(n) Thensum = sum + nEnd IfLoopMsgBox ("сумма = " & sum)End SubFunction isSimple(n As Integer) As IntegerDim i As Integer
+if n = 1 then
+Exit Function
+end if For i = 2 To Int(Sqr(n)) Step 1If (n Mod i) = 0 Then Exit FunctionNext iisSimple = 1End Function

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <title>Error</title>
+</head>
+
+<body>
+<div >
+    <h1>Ошибка заполнения формы:</h1>
+    <p th:each="error : ${errors}" th:text="${error.field} + ' - ' + ${error.defaultMessage}"></p>
+</div>
+</body>
+</html>

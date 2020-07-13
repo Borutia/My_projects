@@ -1,0 +1,35 @@
+body{
+    background-color:Cornsilk;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 16pt;
+}
+
+.myNotes
+{
+    width: 720px;
+    border: solid ;
+    margin: 0 auto;
+    border: solid 8px;
+    text-align:center;
+    min-height:550px;
+    padding:10px;
+}
+
+hr {
+    border: none;
+    background-color: black;
+    height: 8px;
+}
+
+.btn{
+    border-radius:10px;
+    font-size: 10pt;
+}
+
+.printNotes hr{
+    height: 3px;
+}
+

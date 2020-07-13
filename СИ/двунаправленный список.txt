@@ -1,0 +1,447 @@
+#include <stdio.h>
+#include <conio.h>
+//================================================================
+// Описание структуры
+struct Telem
+{
+    int inf;
+    Telem *link;
+} *begL, *endL;
+//================================================================
+// Добавление элемента в начало списка
+void addElemAToBeginList()
+{
+    Telem *p = new Telem;
+    printf("Vvedite noviy element: ");
+    scanf("%d", &p -> inf);
+    if(begL == NULL)
+    {
+        endL = p;
+    }
+    p -> link = begL;
+    begL = p;
+    printf("\n");
+};
+//================================================================
+// Добавление элемента в конец списка
+void addElemToEndList()
+{
+    Telem *p = new Telem;
+    printf("Vvedite noviy element: ");
+    scanf("%d", &p -> inf);
+    if(begL == NULL)
+    {
+        begL = p;
+    }
+    else
+    {
+        endL -> link = p;
+    }
+    p -> link = NULL;
+    endL = p;
+    printf("\n");
+};
+//================================================================
+// Подсчёт общего количества элементов списка
+int countElem()
+{
+    Telem *p = begL;
+    int count = 0;
+    while(p != NULL)
+    {
+        count++;
+        p = p -> link;
+    }
+ 
+    return count;
+};
+//================================================================
+// Вставка элемента в список после заданного
+void insertElemAfterSet()
+{
+    Telem *p = new Telem;
+    Telem *pk = begL; // Указатель на заданный элемент
+    if(begL == NULL)
+    {
+        printf("Spisok pust. Vstavka nevozmozhna!");
+        printf("\n\n");
+    }
+    else
+    {
+        int index;
+        printf("Obshchee kolichestvo elementov v spiske = %d", countElem());
+        printf("\n\n");
+        printf("Vvedite nomer elementa posle kotorogo hotite vstavit' noviy element: ");
+        scanf("%d", &index);
+        printf("\n");
+        if((index >= countElem()) || (index <= 0))
+        {
+            printf("Vstavka elementa nevozmozhna. Spisok ne sformirovan!\n\n");
+        }
+        else
+        {
+            for(int i = 1; i < index; i++)
+            {
+                pk = pk -> link;
+            }
+            printf("Vvedite noviy element: ");
+            scanf("%d", &p -> inf);
+            p -> link = pk -> link;
+            pk -> link = p;
+            printf("\n");
+        } 
+    }
+};
+//================================================================
+// Вставка элемента в список перед заданным
+void insertElemBeforeSet()
+{
+    Telem *p = new Telem;
+    Telem *pk = begL; // Указатель на заданный элемент
+    if(begL == NULL)
+    {
+        printf("Spisok pust. Vstavka nevozmozhna!");
+        printf("\n\n");
+    }
+    else
+    {
+        int index;
+        printf("Obshchee kolichestvo elementov v spiske = %d", countElem());
+        printf("\n\n");
+        printf("Vvedite nomer elementa pered kotorim hotite vstavit' noviy element: ");
+        scanf("%d", &index);
+        printf("\n");
+        if((index > countElem()) || (index <= 1))
+        {
+            printf("Vstavka elementa nevozmozhna. Spisok ne sformirovan!\n\n");
+        }
+        else
+        {
+            for(int i = 1; i < index; i++)
+            {
+                pk = pk -> link;
+            }
+            printf("Vvedite noviy element: ");
+            scanf("%d", &p -> inf);
+            p -> link = pk -> link;
+            pk -> link = p;
+            int tmp = pk -> inf;
+            pk -> inf = p -> inf;
+            p -> inf = tmp;
+            printf("\n");
+        } 
+    }
+};
+//================================================================
+// Удаление элемента из начала списка
+void deleteElemFromBeginList()
+{
+    Telem *p = begL;
+    if(p == NULL)
+    {
+        printf("Spisok pust. Udalenie nevozmozhno!");
+        printf("\n\n");
+    }
+    else
+    {
+        begL = p -> link;
+        delete p;
+    }
+};
+//================================================================
+// Удаление элемента из конца списка
+void deleteElemFromEndList()
+{
+    Telem *p = begL;
+    if(p == NULL)
+    {
+        printf("Spisok pust. Udalenie nevozmozhno!");
+        printf("\n\n");
+    }
+    else
+    {
+        while((p -> link != endL) && (p -> link != NULL))
+        {
+            p = p -> link;
+        }
+        if(begL == endL)
+        {
+            begL = begL -> link;
+            endL = NULL;
+            delete p;
+        }
+        else
+        {
+            endL = p;
+            delete p -> link;
+            endL -> link = NULL;
+        }
+    }
+};
+//================================================================
+// Удаление срединного элемента списка
+void deleteCentreElem()
+{
+    int index;
+    Telem *p = begL;
+    Telem *pk;
+    if(begL == NULL)
+    {
+        printf("Spisok pust. Udalenie nevozmozhno!");
+        printf("\n\n");
+    }
+    else
+    {
+        printf("Obshchee kolichestvo elementov v spiske = %d", countElem());
+        printf("\n\n");
+        printf("Vvedite nomer elementa kotoriy vi hotite udalit': ");
+        scanf("%d", &index);
+        printf("\n");
+        if((index >= countElem()) || (index <= 1))
+        {
+            printf("Udalenie elementa nevozmozhno. Spisok ne sformirovan!\n\n");
+        }
+        else
+        {
+            for(int i = 1; i < index - 1; i++)
+            {
+                p = begL -> link;
+            }
+            pk = p -> link;
+            p -> link = pk -> link;
+            delete pk;
+            p = begL;
+        }
+    }
+};
+//================================================================
+// Очистка всего списка
+void deleteAllElem()
+{
+    Telem *p = begL;
+    if(p == NULL)
+    {
+        printf("Spisok pust. Udalenie nevozmozhno!");
+        printf("\n\n");
+    }
+    else
+    {
+        while(p != NULL)
+        {
+            begL = p -> link;
+            delete p;
+            p = begL;
+        }
+    }
+};
+//================================================================
+// Поиск конкретного элемента списка
+void seekKonkrElem()
+{
+    Telem *pk = begL;
+    int index;
+    if(begL == NULL)
+    {
+        printf("Spisok pust. Poisk nevozmozhen!");
+        printf("\n\n");
+    }
+    else
+    {
+        printf("Obshchee kolichestvo elementov v spiske = %d", countElem());
+        printf("\n\n");
+        printf("Vvedite nomer elementa, kotoriy vi hotite naiti: ");
+        scanf("%d", &index);
+        printf("\n");
+        if(index >= countElem())
+        {
+            printf("Poisk elementa nevozmozhen. Spisok ne sformirovan!\n\n");
+        }
+        else
+        {
+            for(int i = 1; i < index; i++)
+            {
+                pk = pk -> link;
+            }
+            printf("Iskomiy element = %d", pk -> inf);
+            printf("\n\n");
+        }
+    }
+};
+//================================================================
+// Вывод списка на экран из начала в конец
+void printListFromBeginToEnd()
+{
+    Telem *p = begL;
+    if(p == NULL)
+    {
+        printf("Spisok pust. Pecht' nevozmozhna!");
+        printf("\n\n");
+    }
+    else
+    {
+        printf("Spisok imeet vid: ");
+        while(p != NULL)
+        {
+            printf("%d ", p -> inf);
+            p = p -> link;
+        }
+        printf("\n\n");
+    }
+};
+//================================================================
+// Вывод списка на экран из конца в начало
+void printListFromEndToBegin()
+{
+    Telem *p = begL, *pk = endL;
+    if(p == NULL)
+    {
+        printf("Spisok pust. Pecht' nevozmozhna!");
+        printf("\n\n");
+    }
+    else
+    {
+        printf("Spisok imeet vid: ");
+        while(pk != begL)
+        {
+            while(p -> link != pk)
+            {
+                p = p -> link;
+            }
+            printf("%d ", pk -> inf);
+            pk = p;
+            p = begL;
+        }
+        printf("%d ", pk -> inf);
+        printf("\n\n");
+    }
+};
+//================================================================
+void sortListByAsc()
+{
+    int tmp;
+    Telem *p1 = begL, *p2;
+    while(p1 != NULL)
+    {
+        p2 = begL;
+        while(p2 -> link != NULL)
+        {
+            if(p2 -> inf > p2 -> link -> inf)
+            {
+                tmp = p2 -> inf;
+                p2 -> inf = p2 -> link -> inf;
+                p2 -> link -> inf = tmp;
+            }
+            p2 = p2 -> link;
+        }
+        p1 = p1 -> link;
+    }
+ 
+};
+//================================================================
+// Отрисовка меню
+int drawMenu()
+{
+    int numb;
+    puts(" 1 - Dobavlenie elementa v nachalo spiska");
+    puts(" 2 - Dobavlenie elementa v konets spiska");
+    puts(" 3 - Vstavka elementa v spisok posle zadannogo");
+    puts(" 4 - Vstavka elementa v spisok pered zadannim");
+    puts(" 5 - Udalenie elementa iz nachala spiska");
+    puts(" 6 - Udalenie elementa iz kontsa spiska");
+    puts(" 7 - Udalenie sreddinnogo elementa spiska");
+    puts(" 8 - Ochistka vsego spiska");
+    puts(" 9 - Poisk konkretnogo elementa spiska");
+    puts("10 - Vivod spiska na ekran iz nachala v konets");
+    puts("11 - Vivod spiska na ekran iz kontsa v nachalo");
+    puts("12 - Sortirovka spiska po vozrastaniy");
+    puts("13 - Vihod iz programmi");
+    printf("\nViberite odin iz punktov menu: ");
+    scanf("%d", &numb);
+ 
+    return numb;
+};
+//================================================================
+// Главная функция
+void main()
+{
+    begL = endL = NULL;
+    int numb;
+    do
+    {
+        do
+        {
+             numb = drawMenu();
+             printf("\n");
+        }
+        while((numb < 1) || (numb > 13));
+        switch(numb)
+        {
+        case 1:
+            {
+                addElemAToBeginList();
+                break;
+            }
+        case 2:
+            {
+                addElemToEndList();
+                break;
+            }
+        case 3:
+            {
+                insertElemAfterSet();
+                break;
+            }
+        case 4:
+            {
+                insertElemBeforeSet();
+                break;
+            }
+        case 5:
+            {
+                deleteElemFromBeginList();
+                break;
+            }
+        case 6:
+            {
+                deleteElemFromEndList();
+                break;
+            }
+        case 7:
+            {
+                deleteCentreElem();
+                break;
+            }
+        case 8:
+            {
+                deleteAllElem();
+                break;
+            }
+        case 9:
+            {
+                seekKonkrElem();
+                break;
+            }
+        case 10:
+            {
+                printListFromBeginToEnd();
+                break;
+            }
+        case 11:
+            {
+                printListFromEndToBegin();
+                break;
+            }
+        case 12:
+            {
+                sortListByAsc();
+                break;
+            }
+        }
+    }
+    while(numb != 13);
+    printf("\nZavershenie programmi!");
+ 
+    deleteAllElem();
+    
+    getch();
+};

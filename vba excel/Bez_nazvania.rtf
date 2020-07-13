@@ -1,0 +1,24 @@
+{\rtf1\ansi\ansicpg1251\cocoartf1671
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Sub \uc0\u1050 \u1085 \u1086 \u1087 \u1082 \u1072 1_\u1065 \u1077 \u1083 \u1095 \u1086 \u1082 ()\
+Dim X(20) As Double\
+Dim i As Integer\
+Dim max As Double\
+Dim max_i As Integer\
+max_i = 0\
+max = -100000\
+For i = 1 To 20\
+X(i) = 1.2 * Sin(0.1 * i) + 0.4 * Cos(i - 1)\
+If max < X(i) Then\
+max = X(i)\
+max_i = i\
+End If\
+Next i\
+MsgBox (("max = ") & max & ("  k = ") & max_i)\
+End Sub\
+}

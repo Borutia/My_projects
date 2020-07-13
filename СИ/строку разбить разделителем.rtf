@@ -1,0 +1,90 @@
+{\rtf1\ansi\ansicpg1251\cocoartf1561\cocoasubrtf100
+{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fswiss\fcharset0 Helvetica;\f2\fnil\fcharset0 Menlo-Regular;
+\f3\fnil\fcharset0 Menlo-Bold;}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red109\green111\blue5;\red15\green112\blue3;
+\red25\green68\blue35;\red0\green0\blue254;\red0\green0\blue109;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c100000\c100000;\csgenericrgb\c42745\c43529\c1961;\csgenericrgb\c5882\c43922\c1176;
+\csgenericrgb\c9804\c26667\c13725;\csgenericrgb\c0\c0\c99608;\csgenericrgb\c0\c0\c42745;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\li80\fi-80\ri460\sa80\partightenfactor0
+
+\f0\fs26 \cf0 \cb2 \expnd0\expndtw0\kerning0
+\uc0\u1057 \u1090 \u1088 \u1086 \u1082 \u1091  \u1085 \u1077 \u1086 \u1075 \u1088 \u1072 \u1085 \u1080 \u1095 \u1077 \u1085 \u1085 \u1086 \u1075 \u1086  \u1088 \u1072 \u1079 \u1084 \u1077 \u1088 \u1072  (\u1087 \u1086  \u1085 \u1072 \u1078 \u1072 \u1090 \u1080 \u1102  enter \u1074 \u1074 \u1086 \u1076  \u1079 \u1072 \u1082 \u1086 \u1085 \u1095 \u1080 \u1090 \u1100  \u1088 \u1072 \u1079 \u1073 \u1080 \u1090 \u1100  \u1085 \u1072  \u1089 \u1083 \u1086 \u1074 \u1072  \u1087 \u1086  \u1079 \u1072 \u1076 \u1072 \u1085 \u1085 \u1086 \u1084 \u1091  \u1088 \u1072 \u1079 \u1076 \u1077 \u1083 \u1080 \u1090 \u1077 \u1083 \u1102 .\u1042 \u1099 \u1074 \u1077 \u1089 \u1090 \u1080  \u1085 \u1072  \u1087 \u1077 \u1095 \u1072 \u1090 \u1100  \u1089 \u1090 \u1088 \u1086 \u1082 \u1091  \u1080  \u1089 \u1083 \u1086 \u1074 \u1072 .
+\f1\fs24 \cb1 \kerning1\expnd0\expndtw0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\pardirnatural\partightenfactor0
+
+\f2 \cf3 #include 
+\f3\b \cf4 <stdio.h>\
+
+\f2\b0 \cf3 #define 
+\f3\b \cf5 MAX_LENGHT 
+\f2\b0 \cf6 1000\
+\cf3 #define 
+\f3\b \cf5 SYMBOL0   \cf4 ' '\
+\
+\cf7 int 
+\f2\b0 \cf0 main()\
+\{\
+    
+\f3\b \cf7 char  
+\f2\b0 \cf0 string[
+\f3\b \cf5 MAX_LENGHT
+\f2\b0 \cf0 ] = \{\cf6 0\cf0 \};\
+    
+\f3\b \cf7 char 
+\f2\b0 \cf0 *pointers[
+\f3\b \cf5 MAX_LENGHT
+\f2\b0 \cf0 ] = \{\cf6 0\cf0 \};\
+    
+\f3\b \cf7 int 
+\f2\b0 \cf0 index = \cf6 0\cf0 ;\
+    \
+    fgets(string, 
+\f3\b \cf5 MAX_LENGHT
+\f2\b0 \cf0 , 
+\f3\b \cf5 stdin 
+\f2\b0 \cf0 );\
+  \
+    pointers[index++] = string;\
+    
+\f3\b \cf7 for
+\f2\b0 \cf0 (
+\f3\b \cf7 char 
+\f2\b0 \cf0 *p=string; *p!=
+\f3\b \cf4 '\cf7 \\0\cf4 '
+\f2\b0 \cf0 ; ++p )\
+    \{\
+        
+\f3\b \cf7 if 
+\f2\b0 \cf0 (*p == 
+\f3\b \cf5 SYMBOL0
+\f2\b0 \cf0 )\
+        \{\
+            *p = 
+\f3\b \cf4 '\cf7 \\0\cf4 '
+\f2\b0 \cf0 ;\
+            
+\f3\b \cf7 while
+\f2\b0 \cf0 ( *(++p) == 
+\f3\b \cf5 SYMBOL0 
+\f2\b0 \cf0 );\
+            pointers[index++] = p;\
+        \}\
+    \}\
+    
+\f3\b \cf7 while
+\f2\b0 \cf0 (index)\
+    \{\
+        printf(
+\f3\b \cf4 "\cf7 %d\cf4  = \cf7 %s\\n\cf4 "
+\f2\b0 \cf0 , index, pointers[--index]);\
+    \}\
+    
+\f3\b \cf7 return 
+\f2\b0 \cf6 0\cf0 ;\
+\}\
+\
+}

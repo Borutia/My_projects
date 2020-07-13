@@ -1,0 +1,13 @@
+
+def sqrtIter(prevGuess: Double, guess: Double, x: Double): Double = 
+if (isGoodEnough(guess, prevGuess)) guess 
+else sqrtIter(guess, improve(guess, x), x) 
+
+def improve(guess: Double, x: Double) = 
+(guess + x / guess) / 2 
+
+def isGoodEnough(guess: Double, prevGuess: Double) = 
+Math.abs(guess - prevGuess) < 0.1e-20 
+
+
+def sqrt(x: Double) = sqrtIter(-1, 1.0, x)

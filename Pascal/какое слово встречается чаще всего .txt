@@ -1,0 +1,34 @@
+var a:array [1..100] of string;
+b:array [1..100] of integer;
+s,x:string; i,j,n,m:integer;
+procedure f;
+var k:integer;
+begin
+if x<>'' then 
+ for k:=1 to j do if a[k]=x then 
+  begin
+  b[k]:=b[k]+1;
+   if b[m]<b[k] then m:=k;
+   x:='';
+  end;
+if x<>'' then 
+ begin
+ inc(j);
+ b[j]:=1;
+ a[j]:=x;
+ x:='';
+ end;
+end;
+begin
+m:=1;
+ Writeln('введите n') ;
+     Readln(n) ;
+     While (n>100) or (n<1) do begin
+      Writeln(' количество n не должно быть менее 1 или превышать 100. введите другое число:');
+      Readln(N); 
+      end;
+write('vvedite stroku: '); readln(s);
+for i:=1 to length(s) do
+ if s[i]<>' ' then x:=x+s[i] else f; f;
+writeln(a[m]);
+end.

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" th:href="style.css">
+    <title>Сервис заметок</title>
+</head>
+
+<body>
+    <h1 align="center">Мои заметки</h1>
+    <div class="myNotes">
+        <div class="searchNotes">
+            <form action="/">
+                <button class="btn" type="submit">Все заметки</button>
+            </form>
+
+            <br>
+
+            <form method="POST" action="/find">
+                <input class="inp"  type="text" placeholder="Поиск" name="query">
+                <button class="btn" type="submit">Найти</button>
+            </form>
+            <hr>
+         </div>
+
+        <h2>Добавить заметку</h2>
+
+        <form method="POST" action="/">
+
+            <div class="input">
+                Заголовок:
+                <input class="inp" type="text" size="50" placeholder="Заголовок" name="title">
+            </div>
+            <br>
+            <div class="input">
+                Текст:
+                <input class="inp" type="text" size="80" placeholder="Текст" name="text">
+
+                <div class="inputButton">
+                    <br>
+                    <button class="btn" type="submit">Добавить</button>
+                    <hr>
+                </div>
+
+            </div>
+        </form>
+
+        <h2>Список заметок</h2>
+
+        <div th:if="${search}">
+            <h3 th:text="'Поиск: ' + ${search}"></h3>
+        </div>
+
+        <div class="printNotes" th:each="note : ${notes}">
+            <p class="title" th:text="${note.title}"></p>
+            <p th:if="${note.text}" th:text="${note.text}"></p>
+
+            <form th:action="@{/remove/{noteId}(noteId=${note.id})}">
+                <button class="btn" type="submit">Удалить запись</button>
+            </form>
+            <hr>
+        </div>
+    </div>
+
+</body>
+</html>

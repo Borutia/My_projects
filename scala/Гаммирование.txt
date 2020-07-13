@@ -1,0 +1,69 @@
+import scala.util.Random 
+import scala.collection.mutable.ArrayBuffer
+
+object Gamming { 
+  val charsCount = 256 
+  val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghjiklmnopqrstuvwxyz"
+  var buffer = ArrayBuffer[Int]() 
+  val randA = new Random 
+  val randB = new Random
+  def generator() : Int = 
+  { 
+    val a = randA.nextInt(chars.length) 
+    val b = randB.nextInt(chars.length) 
+    val r = (b * charsCount) % charsCount 
+    val result = buffer(r)
+    buffer(r) = a 
+    result
+  } 
+
+def createGamma(text: String): ArrayBuffer[Int] = 
+  { 
+    for(i <- 0 until charsCount) 
+    { 
+      buffer += Random.nextInt(chars.length) 
+    } 
+    val gammaBuffer = ArrayBuffer[Int]()
+    for(i <- 1 to text.length) 
+    { 
+      gammaBuffer += generator()
+    } 
+    gammaBuffer
+  } 
+  def create_key(gammaBuffer: ArrayBuffer[Int]) : String = 
+  { 
+    var key = ""
+    for(i <- gammaBuffer.indices) 
+    { 
+      val symbol = chars(gammaBuffer(i)) 
+      key += s"$symbol" 
+    } 
+    key
+  }
+
+def Gamma(text: String, key: String) : String = 
+  { 
+    var gammaResult = "" 
+    for(i <- 0 until text.length) 
+    { 
+      gammaResult += (text(i)^key(i)) .toChar 
+    } 
+    gammaResult 
+  } 
+  def main(args: Array[ String]) : Unit = 
+  { 
+    randA.setSeed(Random.nextInt()) 
+    randB.setSeed(Random.nextInt())      
+    var text = "hello world" 
+    println("Your string: " + text)
+    var key = create_key(createGamma(text))
+    println("Key for your string: " + s"$key")
+      
+    var Encryption = Gamma(text, key)      
+    println("Your string after gamming: " + Encryption) 
+  
+    var Decryption = Gamma(Encryption, key)
+    println("Your string after Degamming: " + Decryption)
+    
+  }
+}

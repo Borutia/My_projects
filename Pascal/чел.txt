@@ -1,0 +1,55 @@
+uses
+  graphABC, timers;
+ 
+var
+  t: timer;
+  p, p1: picture;
+  jump: boolean;
+ 
+procedure Man;
+begin
+clearwindow(clYellow);
+SetBrushColor(clPurple);
+  rectangle(0,360,700,500);
+  line(300,0,300,50);
+  if jump = true then 
+  begin
+    p.Draw(200, 270);
+    jump := false;
+    SetBrushColor(clRed);
+    circle(300,80,30);
+  end
+  else 
+  begin
+    p1.Draw(200, 220);
+    jump := true;
+    SetBrushColor(clGreen);
+    circle(300,80,30);
+  end
+end;
+ 
+begin
+
+  SetBrushColor(clblack);
+   jump := false;
+  t := timer.Create(250, Man);
+  
+  p := picture.Create(200, 300);
+  p.Circle(100, 20, 10);
+  p.ellipse(80, 30, 120, 70);
+  p.Line(85, 70, 85, 100);
+  p.Line(115, 70, 115, 100);
+  p.Line(80, 30, 60, 55);
+  p.Line(120, 30, 140, 55);
+  
+
+  
+  p1 := picture.Create(200, 300);
+  p1.Circle(100, 20, 10);
+  p1.ellipse(80, 30, 120, 70);
+  p1.Line(85, 70, 60, 100);
+  p1.Line(115, 70, 130, 100);
+  p1.Line(80, 30, 60, 5);
+  p1.Line(120, 30, 140, 5);
+  t.Start;
+end.

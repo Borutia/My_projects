@@ -1,0 +1,30 @@
+object Wilson { 
+  def factorial(n: Int): Int = 
+  { 
+    if(n == 0) 1 
+    else n * factorial(n - 1) 
+  } 
+  def Test(n: Int): Unit = 
+  { 
+    if(n > 1) 
+    { 
+      if ((factorial(n - 1)+1) % n != 0) 
+      { 
+        println("A composite number") 
+      } 
+      else 
+      { 
+        println("A prime number");  
+      } 
+    } 
+    else 
+    { 
+      println("Error, input a number > 1") 
+    } 
+  } 
+  def main(args: Array[String]): Unit = 
+  { 
+    var n = 10 
+    Test(n) 
+  }
+}

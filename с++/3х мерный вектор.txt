@@ -1,0 +1,150 @@
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+class vector
+{
+	double x, y, z;
+public:
+	vector(double vX = 0, double vY = 0, double vZ = 0) {
+		x = vX;
+		y = vY;
+		z = vZ;
+	}// конструктор
+	~vector() {};
+	friend vector operator+(vector a, vector b); //сложение векторов
+	friend vector operator-(vector a, vector b); //вычитание векторов
+	friend vector operator*(vector a, double scalar); //умножение вектора на скаляр
+	friend double operator*(vector a, vector b); //скалярное произведение векторов
+	friend vector operator%(vector a, vector b); //векторное произведение векторов
+	friend double abs(vector a); //модуль вектора(длина)
+	void input(double vX , double vY , double vZ );//ввод
+	void output();//вЫвод
+	friend void sort(vector a[], int n);
+};
+void vector::input(double vX , double vY , double vZ ) 
+{ 
+	x = vX;
+	y = vY;
+	z = vZ; 
+}
+void vector::output()
+{
+	cout << "(" << x << "," << y << "," << z << ")";
+}
+
+vector operator+(vector a, vector b)//перегружаю оператор +
+{
+	vector temp;
+	temp.x = a.x + b.x;
+	temp.y = a.y + b.y;
+	temp.z = a.z + b.z;
+	return temp;
+}
+
+vector operator-(vector a, vector b)//перегружаю оператор -
+{
+	vector temp;
+	temp.x = a.x - b.x;
+	temp.y = a.y - b.y;
+	temp.z = a.z - b.z;
+	return temp;
+}
+
+vector operator*(vector a, double scalar)//перегружаю оператор *
+{
+	vector temp;
+	temp.x = a.x * scalar;
+	temp.y = a.y * scalar;
+	temp.z = a.z * scalar;
+	return temp;
+}
+
+double operator*(vector a, vector b)//перегружаю оператор / для double(для скалярного произведения)
+{
+	return a.x*b.x + a.y*b.y + a.z*b.z;
+}
+
+vector operator%(vector a, vector b)//перегружаю оператор % для векторного произведения
+{
+	vector Ox(1, 0, 0), Oy(0, 1, 0), Oz(0, 0, 1);
+	return Ox*(a.y*b.z - a.z*b.y) + Oy*(a.z*b.x - a.x*b.z) + Oz*(a.x*b.y - a.y*b.x);
+}
+
+double abs(vector a)//вычесление модуля
+{
+	return sqrt(a.x*a.x + a.y*a.y + a.z*a.z);
+}
+void sort(vector a[],int n)
+{
+	vector temp;
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = 0; j < n - i - 1; j++) {
+			if (a[j].x < a[j + 1].x) {
+				// меняем элементы местами
+				temp = a[j];
+				a[j] = a[j + 1];
+				a[j + 1] = temp;
+			}
+		}
+	}
+}
+
+int main() {
+	int n;
+	cout << "n = ";
+	cin >> n;
+	vector *A = new vector[n];
+	cout << "input value of massiv A:" << endl;
+	double a, b, c;
+	for (int i = 0; i < n; i++)
+	{
+		cout << i << " vector: ";
+		cin >> a >> b >> c;
+		A[i].input(a, b, c);
+	}
+	int k1, k2;
+	cout << "input 2 numbers of vectors for work of them: ";
+	cin >> k1 >> k2;
+	cout << "Addition of vectors: ";
+	vector C;
+	C = A[k1] + A[k2];
+	C.output();
+	cout << endl;
+	cout << "subtraction of vectors: ";
+	C = A[k1] - A[k2];
+	C.output();
+	cout << endl;
+	cout << "multiplication of vectors: ";
+	C = A[k1] % A[k2];
+	C.output();
+	cout << endl;
+	cout << "lenght of vector A[1]: ";
+	cout << abs(A[k1]);
+	cout << endl;
+	cout << "lenght of vector A[2]: ";
+	cout << abs(A[k2]);
+	cout << endl;
+	cout << "sort of vectors by (x):" << endl;
+	sort(A, n);
+	for (int i = 0; i < n; i++) {
+		A[i].output();
+		cout << endl;
+	}
+	cout << "result or vectors: ";
+	C = 0;
+	for (int i = 0; i < n; i++)
+		C = C + A[i];
+	C.output();
+	cout << endl;
+	cout << "2 vectors of max parallelogram: " << endl;
+	for (int i = 0; i < 2; i++)
+	{
+		A[i].output();
+		cout << endl;
+	}
+
+	cout << endl;
+	system("pause");
+	return 0;
+}
