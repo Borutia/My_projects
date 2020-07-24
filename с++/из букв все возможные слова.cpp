@@ -1,0 +1,1 @@
+#include <algorithm>#include <iostream>#include <string>using namespace std;int main(){    string s{ "aabc" };    sort( s.begin(), s.end() );    //s.resize( std::unique( s.begin(), s.end() ) - s.begin() );    do {        cout << s << std::endl;    }    while( next_permutation( s.begin(), s.end() ) );    return 0 ;}
