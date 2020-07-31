@@ -1,0 +1,20 @@
+tu = 4.6;
+t1 = 5.7;
+U = 1.7;
+t = -tu:0.01:tu;
+f1 = [t(1,2:460).*(-U)./t(1,2:460), -U];
+f1 = [0, f1, t(1,462:920).*U./t(1,462:920), 0];
+figure;
+plot(t, f1);
+f2 = (-U/tu).*t(1,461:921) + U;
+figure;
+plot(t(1,461:921),f2);
+y = xcorr(f1,f2);
+figure;
+plot(-tu:0.005:tu, y);
+grid;
+t = -tu:0.02:tu;
+f1 = [t(1,1:length(t)/2).*(-U)./t(1,1:length(t)/2), -U];
+f1 = [f1,
+t(1,length(t)/2+1:length(t)).*U./t(1,length(t)/2+1:length(t))];
+coef = corrcoef(f1,f2);
