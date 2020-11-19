@@ -1,0 +1,122 @@
+CREATE TABLE store 
+(
+id serial4 NOT NULL, 
+name varchar(64) NOT NULL,
+PRIMARY KEY (id)
+);
+
+CREATE TABLE purchase (
+id serial4 NOT NULL, 
+product varchar(128) NOT NULL,
+price decimal(10,2) NOT NULL,
+store_id int NOT NULL,
+PRIMARY KEY (id),
+FOREIGN KEY (store_id) REFERENCES store (id) );
+
+
+
+INSERT INTO type_equipment (type_name, mask_serial_number) VALUES ('TP-Link TL-WR74', 'XXAAAAAXAA'),('D-Link DIR-300','NXXAAXZXaa'),('D-Link DIR-300 S', 'NXXAAXZXXX');
+
+
+INSERT INTO test_air_store (name)
+    VALUES ('ashan');
+
+INSERT INTO test_air_purchase (product, price, store_id)
+    VALUES ('sausage', 100, 1),
+           ('milk', 150, 1);
+
+
+INSERT INTO test_air_store (name)
+    VALUES ('magnit');
+
+INSERT INTO test_air_purchase (product, price, store_id)
+    VALUES ('meat', 200, 2),
+           ('cheese', 150, 2);
+
+select st.name, sum(price) 
+from store st, purchase purc 
+where st.id = purc.store_id
+group by st.id;
+
+
+CREATE TABLE Bills
+( id    serial4 ,
+  num   VARCHAR(150) NOT NULL,
+  bdate date NOT NULL,
+  pdate date,
+  cid   INT NOT NULL,
+  PRIMARY KEY (id)
+); 
+
+CREATE TABLE Bill_content
+(   bcID    INT  NOT NULL AUTO_INCREMENT,
+    bID     INT,
+    product     VARCHAR(150),
+    tarif_name  VARCHAR(150),
+    service_name VARCHAR(150),
+    tip     INT,
+    cost DECIMAL(5,2),
+    payed DECIMAL(5,2),
+    cnt INT,
+    PRIMARY KEY (bCid),
+    FOREIGN KEY (bID) REFERENCES Bills(id)
+);
+
+CREATE TABLE retail_packs
+(   rpID    INT  NOT NULL AUTO_INCREMENT,
+    bcID    INT,
+    since   DATETIME,
+    upto    DATETIME,
+    PRIMARY KEY (rpID),
+    FOREIGN KEY (bcID) REFERENCES bill_content(bcID)
+);
+
+
+INSERT INTO Bills (id, num, bdate, pdate, cid)
+    VALUES (1, '123', '2019-9-5','2019-9-24', 11),
+           (2, '124', '2019-9-5', '2019-9-24', 12);
+
+
+INSERT INTO Bill_content (bcid, bID, product, tarif_name, service_name, tip, cost, payed, cnt)
+    VALUES  (111, 1, 'Экстерн', 'Полный', 'Продление', 2, 100.00, 100.00, 1),
+            (222, 2, 'Закупки', 'Пробный', 'Подключение', 1, 150.00, 140.00, 1);
+
+
+INSERT INTO Bill_content (bcid, bID, product, tarif_name, service_name, tip, cost, payed, cnt)
+    VALUES  (444, 1, 'Экстерн', 'Супер_Элитный', 'Продление', 2, 100.00, 100.00, 1);
+
+
+INSERT INTO Bills (id, num, bdate, pdate, cid)
+    values (3, '123', '2019-9-5','2019-9-24', 11);
+
+
+insert into retail_packs (rpID, bcID, since, upto)
+    values (1111, 111, '2019-9-5', '2019-9-27');
+
+
+insert into retail_packs (rpID, bcID, since, upto)
+    values (2222, 222, '2019-9-5', '2019-9-27'); # Создание таблиц
+
+select
+    b.*, bc.*
+from
+    Bills b, Bill_content bc
+where
+    b.id = bc.bid
+    and bc.product = 'Экстерн'
+brp as (
+select
+    b.cid, b.num, rp.upto, b.pdate
+from
+    b, retail_packs rp
+where
+    rp.bcid = b.bcid
+    and sysdate() between rp.since and rp.upto
+union all
+select
+    b.cid, b.num, b.pdate
+from b
+where
+    not exists (select 1 from retail_packs rp where rp.bcid = b.bcid and sysdate() between rp.since and rp.upto)
+    and b.tip in (1,2))
+

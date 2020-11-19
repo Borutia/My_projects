@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+
+class Order
+{
+    private string name;
+    private double price;
+    public string NAME
+    { get { return name; } set { name = value; } }
+    public double PRICE
+    { get { return price; } set { price = value; } }
+    
+    public Order(string name, double price)
+    {
+        this.name = name;
+        this.price = price;
+    }
+}
+
+class Product
+{
+    private List<Order> list;
+    
+    public Product()
+    {
+        list = new List<Order>();
+    }
+    public void Add(Order obj)
+    {
+        list.Add(obj);
+    }
+    public void Min()
+    {
+       double min_price= list.Min(p => p.PRICE);
+       Console.WriteLine("Самый дешевый товар стоит: " + min_price.ToString());
+    }
+    public void Max()
+    {
+       double max_price = list.Max(p => p.PRICE);
+       Console.WriteLine("Самый дорогой товар стоит: " + max_price.ToString());
+    }
+    public void output_info()
+    {
+        foreach (var order in list)
+        {
+            Console.WriteLine(order.NAME + " " + order.PRICE);
+        }
+    }
+}
+class Program {
+  static void Main() {
+    Product prod = new Product();
+    prod.Add(new Order("milk", 100));
+    prod.Add(new Order("meat", 300));
+    prod.Add(new Order("bread", 50));
+    prod.Add(new Order("cheese", 200));
+    prod.output_info();
+    prod.Min();
+    prod.Max();
+  }
+}
