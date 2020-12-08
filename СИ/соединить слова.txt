@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+	int N;
+	do
+	{
+		scanf("%d", &N);
+	} while (getchar() != '\n');
+	char *result_output = (char*)malloc(1);
+	char temp[] = "";
+	int check;
+	strcpy(result_output, temp);
+	for (int i = 0; i<N; i++) {
+		check = 0;
+		char text[255];
+		gets_s(text);
+		char *pch = strtok(text, " ");
+		char *str1 = (char*)malloc(strlen(pch));
+		strcpy(str1, pch);
+		pch = strtok(NULL, " ");
+		char *str2 = (char*)malloc(strlen(pch));;
+		strcpy(str2, pch);
+
+		char *it1 = str1;
+		char *it11, *it2;
+		while (it1[0]) {
+			it11 = it1;
+			it2 = str2;
+			while (*it11 == *it2 && *it2) {
+				it2++;
+				it11++;
+			}
+			if (*it11 == 0) {
+				int len = it11 - str1;
+				len += strlen(it2);
+				char *result = (char*)malloc(len);
+				strcpy(result, str1);
+				strcat(result, it2);
+				strcat(result, "\n");
+				result_output = (char*)realloc(result_output, strlen(result_output) + strlen(result) + 1);
+				strcat(result_output, result);
+				check = 1;
+				break;
+			}
+			it1++;
+		}
+		if (check == 0)
+		{
+			char *result = (char*)malloc(strlen(str1) + strlen(str2));
+			strcpy(result, str1);
+			strcat(result, str2);
+			strcat(result, "\n");
+			result_output = (char*)realloc(result_output, strlen(result_output) + strlen(result) + 1);
+			strcat(result_output, result);
+			check = 1;
+		}
+	}
+	printf("%s", result_output);
+	return 0;
+}
