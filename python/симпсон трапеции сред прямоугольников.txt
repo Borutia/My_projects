@@ -1,0 +1,165 @@
+import numpy as np
+import math
+
+
+def integrate_trapecia(
+        function,
+        a,
+        b,
+        step,
+        count_step):
+    integral_value = 0
+    n = int((b - a) / step)
+    for i in range(n):
+        integral_value += (function(a + i * step) + function(a + (i + 1) * step)) / 2 * step
+
+    return integral_value
+
+
+def integrate_pryamougol(
+        function,
+        a,
+        b,
+        step,
+        count_step):
+    integral_value = 0
+    n = int((b - a) / step)
+    a += step / 2
+    for i in range(n):
+        integral_value += function(a + i * step) * step
+    return integral_value
+
+
+def integrate_simpson(
+        function,
+        a,
+        b,
+        step,
+        count_step):
+    integral_value = function(a) + function(b)
+    odd_sum = 0
+    even_sum = 0
+    n = int((b - a) / (2 * step))
+    for i in range(1, n + 1):
+        odd_sum += function(a + (2 * i - 1) * step)
+    for i in range(1, n):
+        even_sum += function(a + 2 * i * step)
+    integral_value += (4 * odd_sum + 2 * even_sum)
+    integral_value *= step / 3
+    return integral_value
+
+
+if __name__ == '__main__':
+    def method_of_pryamougol(
+            function,
+            a,
+            b,
+            epsilon,
+            count_step):
+        ORDER = 2
+        n_0 = int((b - a) / np.sqrt(epsilon)) + 1
+        step = (b - a) / n_0
+        error = 1000000
+        next_value = integrate_pryamougol(function, a, b, step, count_step)
+        while error > epsilon:
+            current_value = next_value
+            step /= 2
+            next_value = integrate_pryamougol(function, a, b, step, count_step)
+            error = abs(current_value - next_value) / (2 ** ORDER - 1)
+        return next_value, step, error
+
+
+    def trapecia_method(
+            function,
+            a,
+            b,
+            epsilon,
+            count_step):
+        ORDER = 2
+        n_0 = int((b - a) / np.sqrt(epsilon)) + 1
+        step = (b - a) / n_0
+        error = 1000000
+        next_value = integrate_trapecia(function, a, b, step, count_step)
+        while error > epsilon:
+            current_value = next_value
+            step /= 2
+            next_value = integrate_trapecia(function, a, b, step, count_step)
+            error = abs(current_value - next_value) / (2 ** ORDER - 1)
+        return next_value, step, error
+
+
+    def simpson_method(
+            function,
+            a,
+            b,
+            epsilon,
+            count_step):
+        ORDER = 4
+        n_0 = int((b - a) / (2 * pow(epsilon, 1 / 4))) + 1
+        step = (b - a) / (2 * n_0)
+        error = 1000000
+        next_value = integrate_simpson(function, a, b, step, count_step)
+        while error > epsilon:
+            current_value = next_value
+            step /= 2
+            next_value = integrate_simpson(function, a, b, step, count_step)
+            error = abs(current_value - next_value) / (2 ** ORDER - 1)
+        return next_value, step, error
+
+
+    a = 0
+    b = np.pi / 2
+    function = lambda x: (np.cos(x)) ** 3 * np.sin(2 * x)
+    epsilon = 0.0001
+    max_abs_second_derivative = 6.1183
+    max_abs_fourth_derivative = 70.5358
+    analytic_integral_value = 2 / 5
+
+    print("f(x) = (cos(x))^3 * sin(2x)\na = {}\nb = {}".format(a, b))
+    steps = [10, 30, 50]
+    for count_step in steps:
+        print('\nsteps = ', count_step)
+        print("1)Метод средних прямоугольников\n")
+        integral_value, step, error_on_step = method_of_pryamougol(
+            function,
+            a,
+            b,
+            epsilon,
+            count_step)
+        print("Шаг: " + str(step))
+        print("Погрешность на шаге: {:.1e}".format(error_on_step))
+        print("Значение интеграла: {:.10f}".format(integral_value))
+        print("Оценка погрешности сверху: |R_n| <= {:.1e}"
+              .format(step * step * (b - a) * max_abs_second_derivative / 24))
+        print("Разность между получившимся значением и точным с модулем: {:.1e}".format(
+            abs(integral_value - analytic_integral_value)))
+
+        print("\n2)Метод трапеций\n")
+        integral_value, step, error_on_step = trapecia_method(
+            function,
+            a,
+            b,
+            epsilon,
+            count_step)
+        print("Шаг: " + str(step))
+        print("Погрешность на шаге: {:.1e}".format(error_on_step))
+        print("Значение интеграла: {:.10f}".format(integral_value))
+        print("Оценка погрешности сверху: |R_n| <= {:.1e}"
+              .format(step * step * (b - a) * max_abs_second_derivative / 12))
+        print("Разность между получившимся значением и точным с модулем: {:.1e}".format(
+            abs(integral_value - analytic_integral_value)))
+
+        print("\n3)Метод симпсона\n")
+        integral_value, step, error_on_step = simpson_method(
+            function,
+            a,
+            b,
+            epsilon,
+            count_step)
+        print("Шаг: " + str(step))
+        print("Погрешность на шаге: {:.1e}".format(error_on_step))
+        print("Значение интеграла: {:.10f}".format(integral_value))
+        print("Оценка погрешности сверху: |R_n| <= {:.1e}"
+              .format(step ** 4 * (b - a) * max_abs_fourth_derivative / 180))
+        print("Разность между получившимся значением и точным с модулем: {:.1e}".format(
+            abs(integral_value - analytic_integral_value)))
