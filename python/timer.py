@@ -1,4 +1,5 @@
 import timeit
+from functools import partial
 
 reps = 10000
 repslist = list(range(reps))
@@ -25,3 +26,4 @@ def genFunc () :
     return list (gen () )
 
 print(min(timeit.repeat(stmt=mapCall, number=1000, repeat=5)))
+print(min(timeit.repeat(partial(mapCall, args), number=1000)))
