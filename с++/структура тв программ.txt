@@ -1,0 +1,393 @@
+#include "iostream"
+#include "fstream"
+#include "string"
+#include <set>
+
+using namespace std;
+
+struct television
+{
+    string name_tv;
+    string name_channel;
+    string genre;
+    int score;
+    string date_survey;
+};
+
+int inputInt(int m = INT_MIN, int M = INT_MAX)
+{
+    int N;
+    for (;;) {
+        if ((std::cin >> N).good() && (m <= N) && (N <= M))
+            return N;
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cout << "Неверный ввод, повторите.\n";
+        } else {
+            std::cout << "Число вне допустимого диапазона значений. Повторите ввод.\n";
+        }
+        std::cin.ignore(100,'\n');
+    }
+}
+
+int add(television *tv, int n)
+{
+    cout << endl;
+    cout << "Наименование программы: ";
+    cin >> tv[n].name_tv;
+    cout << "Наименование канала: ";
+    cin >> tv[n].name_channel;
+    cout << "Жанр: ";
+    cin >> tv[n].genre;
+    cout << "Кол-во баллов: ";
+    tv[n].score = inputInt();
+    cout << "Дата проведения опроса: ";
+    cin >> tv[n].date_survey;
+    n++;
+    return n;
+}
+
+void print_one_node(television *tv, int i)
+{
+    cout << endl;
+    cout << "\t\t" << i << " Номер" << endl;
+    cout << "Наименование программы: ";
+    cout << tv[i].name_tv << endl;
+    cout << "Наименование канала: ";
+    cout << tv[i].name_channel << endl;
+    cout << "Жанр: ";
+    cout << tv[i].genre << endl;
+    cout << "Кол-во баллов: ";
+    cout << tv[i].score<< endl;
+    cout << "Дата проведения опроса: ";
+    cout << tv[i].date_survey<< endl;
+}
+
+void print(television *tv, int n)
+{
+    cout << endl;
+    for(int i=0;i<n;i++)
+    {
+        print_one_node(tv, i);
+    }
+}
+
+int del(television *tv, int n)
+{
+    cout << endl;
+    print(tv, n);
+    cout << "Введите номер записи для удаления: ";
+    int number_tv;
+    number_tv = inputInt();
+    for (long i = number_tv; i < n; ++i)
+    {
+        tv[i] = tv[i + 1];
+    }
+    --n;
+    return n;
+}
+
+void change(television *tv, int n)
+{
+    cout << endl;
+    print(tv, n);
+    cout << "Введите номер записи для изменения: ";
+    int number_tv;
+    number_tv = inputInt();
+    cout << "1)Наименование программы: ";
+    cout << "2)Наименование канала: ";
+    cout << "3)Жанр: "<< endl;
+    cout << "4)Кол-во баллов: ";
+    cout << "5)Дата проведения опроса: ";
+    cout << "Какой пункт вы хотите поменять: " << endl;
+    int number;
+    number = inputInt();
+    cout << "Введите значение на которое изменить: ";
+    switch (number_tv) {
+        case 1:
+        {
+            string value;
+            cin >> value;
+            tv[number_tv].name_tv = value;
+        }
+        case 2:
+        {
+            string value;
+            cin >> value;
+            tv[number_tv].name_channel = value;
+        }
+        case 3:
+        {
+            string value;
+            cin >> value;
+            tv[number_tv].genre = value;
+        }
+        case 4:
+        {
+            int value;
+            value = inputInt();
+            tv[number_tv].score = value;
+        }
+        case 5:
+        {
+            string value;
+            cin >> value;
+            tv[number_tv].date_survey = value;
+        }
+        default:
+            break;
+    }
+}
+
+string get_file_name()
+{
+    string file_name;
+    cout << "Введите название файла: ";
+    cin >> file_name;
+    return file_name;
+}
+
+bool check_file(string file_name)
+{
+    ifstream file(file_name);
+    if(file.bad())
+        return false;
+    return true;
+}
+
+void save(television *tv, int n)
+{
+    cout << endl;
+    string file_name = get_file_name();
+    ofstream fout(file_name);
+    for (int i = 0; i < n; i++)
+    {
+        fout << tv[i].name_tv << " " ;
+        fout << tv[i].name_channel << " ";
+        fout << tv[i].genre  << " ";
+        fout << tv[i].score << " ";
+        fout << tv[i].date_survey << " ";
+        fout << endl;
+    }
+    fout.close();
+    cout << "Данные сохранены!" << endl << endl;
+}
+
+int import_data(television *tv, int n)
+{
+    cout << endl;
+    string file_name = get_file_name();
+    if(!check_file(file_name))
+    {
+        cout << "Такого файла нет!" << endl;
+        return n;
+    }
+    ifstream fin(file_name);
+    n = 0;
+    while(!fin.eof())
+    {
+        fin >> tv[n].name_tv;
+        fin >> tv[n].name_channel;
+        fin >> tv[n].genre;
+        fin >> tv[n].score;
+        fin >> tv[n].date_survey;
+        n++;
+    }
+    fin.close();
+    n--;
+    cout << "Данные Загружены!" << endl << endl;
+    return n;
+}
+
+void search(television *tv, int n)
+{
+    cout << "Введите подстроку для поиска: ";
+    string substring;
+    cin >> substring;
+    for(int i=0;i < n;i++)
+    {
+        if(tv[i].name_tv.find(substring) || tv[i].name_tv.find(substring)
+        || tv[i].genre.find(substring) || tv[i].date_survey.find(substring))
+        {
+            print_one_node(tv, i);
+        }
+    }
+}
+
+void print_sort_list(television *tv, int n)
+{
+    cout << endl;
+    television temp;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (tv[j].name_channel > tv[j + 1].name_channel) {
+                temp = tv[j];
+                tv[j] = tv[j + 1];
+                tv[j + 1] = temp;
+            }
+        }
+    }
+    print(tv, n);
+}
+
+void best_three_channel(television *tv, int n)
+{
+    cout << endl;
+    cout << "Введите дату опроса: ";
+    string temp_date;
+    cin >> temp_date;
+    for (int i = 0; i < n; i++) {
+        if(temp_date == tv[i].date_survey)
+            print_one_node(tv, i);
+    }
+}
+
+void quantity_program(television *tv, int n)
+{
+    cout << endl;
+    set <string> set_channel;
+    for (int i = 0; i < n; i++) {
+        set_channel.insert(tv[i].name_channel);
+    }
+    set <string> :: iterator it = set_channel.begin();
+
+    for (int i = 0; it != set_channel.end(); i++, it++) {
+        int quantity = 0;
+        for (int j = 0; j < n; j++) {
+            if(tv[j].name_channel == *it)
+                quantity++;
+        }
+        cout << tv[i].name_channel << ": " << quantity << endl;
+    }
+
+}
+
+void about_program()
+{
+    cout << endl;
+    cout << "Данная программа предназначена для работы с информационной системой телевизионный телепередач."
+            "Имеет множество функций, для работы с данной системой, которые вы можете наблюдать в меню всей программы.";
+    cout << endl;
+}
+
+void user_guide()
+{
+    cout << endl;
+    cout << "При запуске программы выводится меню для управления всей инфомационной системой, "
+            "используя дружествый интерфейс для пользователя. Каждая функция меню выполняет свою работу, "
+            "в зависимости от пункта, который выберет пользователь.";
+    cout << endl;
+
+}
+
+void task()
+{
+    cout << endl;
+    cout << "Рейтинг телевизионных программ, определяется в результате обработ-ки файла, "
+            "содержащего сведения: наименование программы, наименование ка-нала (Россия, НТВ и т.д.), "
+            "жанр (новости, музыкальная и т.д.), количество бал-лов, дата проведения опроса. Написать программу, "
+            "формирующую списки программ каждого канала, отсортированные по количеству баллов, "
+            "полученных в результате последнего опроса. "
+            "Определить тройку лидеров для каждого жанра на заданную дату опроса. "
+            "Вычислить общее количество программ каждого ка-нала.";
+    cout << endl;
+}
+
+void menu(television *tv)
+{
+    int number;
+    int n = 0;
+    for (;;)
+    {
+        cout << endl;
+        cout << "ТВ программы" << endl;
+        cout << "1)Добавить" << endl;
+        cout << "2)Изменить" <<endl;
+        cout << "3)Удалить" << endl;
+        cout << "4)Вывод всех" <<endl;
+        cout << "5)Сохранить в файл" <<endl;
+        cout << "6)Загрузить из файла" <<endl;
+        cout << "7)Поиск" <<endl;
+        cout << "8)Вывод отсортированного списка" <<endl;
+        cout << "9)Тройка лидеров по жанру" <<endl;
+        cout << "10)Общее кол-во программ каждого канала" <<endl;
+        cout << "11)О программе" <<endl;
+        cout << "12)Руководство пользователя" << endl;
+        cout << "13)Задание" << endl;
+        cout << "14)Выход" <<endl;
+        cout << "Выберите пункт меню: ";
+        number = inputInt();
+        switch (number) {
+            case 1:{
+                n = add(tv, n);
+                break;
+            }
+            case 2:{
+                change(tv, n);
+                break;
+            }
+            case 3:{
+                n = del(tv, n);
+                break;
+            }
+            case 4:{
+                print(tv, n);
+                break;
+            }
+            case 5:{
+                save(tv, n);
+                break;
+            }
+            case 6:{
+                n = import_data(tv, n);
+                break;
+            }
+            case 7:{
+                search(tv, n);
+                break;
+            }
+            case 8:{
+                print_sort_list(tv, n);
+                break;
+            }
+            case 9:{
+                best_three_channel(tv, n);
+                break;
+            }
+            case 10:{
+                quantity_program(tv, n);
+                break;
+            }
+            case 11:{
+                about_program();
+                break;
+            }
+            case 12:{
+                user_guide();
+                break;
+            }
+            case 13:{
+                task();
+                break;
+            }
+            case 14:{
+                cout << "Завершение программы" << endl;
+                cout << "Желаете сохранить данные? 1-да, 2-нет:> ";
+                int answer;
+                answer = inputInt();
+                if(answer == 1)
+                    save(tv, n);
+                exit(0);
+            }
+            default:
+                break;
+        }
+    }
+}
+
+int main()
+{
+    television tv[100];
+    menu(tv);
+    return 0;
+}
