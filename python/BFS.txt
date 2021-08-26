@@ -1,0 +1,33 @@
+from collections import deque
+
+
+def bfs(graph, vertex_from, vertex_to):
+    if vertex_from == vertex_to:
+        return [vertex_to]
+    vertex_checked = set()
+    vertexes = deque([[vertex_from]])
+    while vertexes:
+        path = vertexes.popleft()
+        vertex = path[-1]
+        if vertex not in vertex_checked:
+            neighbours = graph[vertex]
+            for neighbour in neighbours:
+                new_path = list(path)
+                new_path.append(neighbour)
+                if neighbour == vertex_to:
+                    return new_path
+                vertexes.append(new_path)
+            vertex_checked.add(vertex)
+    return None
+
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C']
+}
+
+print(bfs(graph, 'A', 'F'))

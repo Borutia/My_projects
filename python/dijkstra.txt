@@ -1,0 +1,69 @@
+def min_cost(costs, visited):
+    min_edge_cost = float('inf')
+    min_edge = None
+
+    for node in costs:
+        if costs[node] < min_edge_cost and node not in visited:
+            min_edge = node
+            min_edge_cost = costs[node]
+    return min_edge
+
+
+def dijkstra(graph, costs, parents, vertex_to):
+    visited = set()
+    node = min_cost(costs, visited)
+    while node:
+        cost = costs[node]
+        neighbours = graph[node]
+        for neighbour in neighbours:
+            new_cost = cost + neighbours[neighbour]
+            if costs[neighbour] > new_cost:
+                costs[neighbour] = new_cost
+                parents[neighbour] = node
+        visited.add(node)
+        node = min_cost(costs, visited)
+    return costs[vertex_to]
+
+
+graph = {
+    'A': {
+        'B': 1,
+        'C': 1
+    },
+    'B': {
+        'D': 1,
+        'E': 4
+    },
+    'C': {
+        'D': 2,
+        'K': 2
+    },
+    'D': {
+        'K': 3
+    },
+    'K': {
+        'F': 1
+    },
+    'E': {
+        'F': 2
+    },
+    'F': {}
+}
+
+costs = {
+    'B': 1,
+    'C': 1,
+    'D': float('inf'),
+    'K': float('inf'),
+    'E': float('inf'),
+    'F': float('inf')
+}
+
+parents = {
+    'B': 'A',
+    'C': 'A',
+    'F': None
+}
+
+# start 'A'
+print(dijkstra(graph, costs, parents, 'F'))

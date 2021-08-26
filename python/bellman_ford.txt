@@ -1,0 +1,29 @@
+def bellman_ford(graph, vertexes, edges, start):
+    distance = {vertex[1]: float('inf') for vertex in graph}
+    distance[start] = 0
+    for i in range(vertexes - 1):
+        for j in range(edges):
+            source, destination, weight = graph[j]
+            if distance[source] != float('inf') and \
+                    distance[source] + weight < distance[destination]:
+                distance[destination] = distance[source] + weight
+    return distance
+
+
+vertexes = 7
+edges = 9
+graph = [
+    ('A', 'B', 1),
+    ('A', 'C', 1),
+    ('B', 'D', 1),
+    ('B', 'E', 4),
+    ('C', 'D', 2),
+    ('C', 'K', 2),
+    ('D', 'K', 3),
+    ('K', 'F', 1),
+    ('E', 'F', 2),
+]
+
+# start position
+start = 'A'
+print(bellman_ford(graph, vertexes, edges, start))
