@@ -1,0 +1,23 @@
+html {
+    background-color:lightsalmon;
+}
+
+.container { 
+    text-align: center;
+}
+
+.text {
+    margin-bottom: 10px;
+}
+
+.languages {
+    display: flex;
+}
+
+.language{
+    text-decoration: underline;
+}
+
+.books{
+    display: flex;
+}
